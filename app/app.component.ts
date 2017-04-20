@@ -42,23 +42,36 @@ let DEVICES = {
   template: `
   <h1>Hello {{name}}</h1>
   <ul>
-    <li *ngFor="let device of devices.devices" (click)="onSelect(device)">
-
-      <span *ngIf="check_offline(device)">{{device.id}}: {{device.name}}</span>
-    </li>
+    <ng-container *ngFor="let device of devices.devices">
+      <li class="list-item" *ngIf="check_offline(device)" (click)="onSelect(device)">
+        <span>{{device.id}}: {{device.name}}</span>
+      </li>
+    </ng-container>
   </ul>
+  
   <div *ngIf="selectedDevice">
     <p>{{ selectedDevice.name }}</p>
   </div>`,
+  styles: [`
+    .list-item {
+      list-style: none;
+      padding: 10px;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 25px;
+      margin-bottom: 10px;
+      width: 25%;
+    }`]
 })
 
 export class AppComponent  { 
   name = 'Angular'; 
   devices = DEVICES;
   selectedDevice: Device;
+
   onSelect(device: Device): void {
       this.selectedDevice = device;
   }
+
   check_offline(device: any){
     console.log(device);
     let obj: Device = device;
