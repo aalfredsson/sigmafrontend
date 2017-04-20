@@ -5,6 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Device = (function () {
     function Device() {
@@ -38,6 +39,9 @@ var AppComponent = (function () {
         this.name = 'Angular';
         this.devices = DEVICES;
     }
+    AppComponent.prototype.onSelect = function (device) {
+        this.selectedDevice = device;
+    };
     AppComponent.prototype.check_offline = function (device) {
         console.log(device);
         var obj = device;
@@ -50,7 +54,7 @@ var AppComponent = (function () {
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "\n  <h1>Hello {{name}}</h1>\n  <ul>\n    <li *ngFor=\"let device of devices.devices\">\n\n      <span *ngIf=\"check_offline(device)\">{{device.id}}: {{device.name}}</span>\n    </li>\n  </ul>",
+        template: "\n  <h1>Hello {{name}}</h1>\n  <ul>\n    <li *ngFor=\"let device of devices.devices\" (click)=\"onSelect(device)\">\n\n      <span *ngIf=\"check_offline(device)\">{{device.id}}: {{device.name}}</span>\n    </li>\n  </ul>\n  <div *ngIf=\"selectedDevice\">\n    <p>{{ selectedDevice.name }}</p>\n  </div>",
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;

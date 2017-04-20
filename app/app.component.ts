@@ -42,17 +42,23 @@ let DEVICES = {
   template: `
   <h1>Hello {{name}}</h1>
   <ul>
-    <li *ngFor="let device of devices.devices">
+    <li *ngFor="let device of devices.devices" (click)="onSelect(device)">
 
       <span *ngIf="check_offline(device)">{{device.id}}: {{device.name}}</span>
     </li>
-  </ul>`,
+  </ul>
+  <div *ngIf="selectedDevice">
+    <p>{{ selectedDevice.name }}</p>
+  </div>`,
 })
 
 export class AppComponent  { 
   name = 'Angular'; 
   devices = DEVICES;
-
+  selectedDevice: Device;
+  onSelect(device: Device): void {
+      this.selectedDevice = device;
+  }
   check_offline(device: any){
     console.log(device);
     let obj: Device = device;
