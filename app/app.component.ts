@@ -41,6 +41,7 @@ var DEVICES = {
   <h1>Hello {{name}}</h1>
   <ul>
     <li *ngFor="let device of devices.devices">
+
       <span>{{device.id}}</span>{{device.name}}
     </li>
   </ul>`,
