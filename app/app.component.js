@@ -42,7 +42,6 @@ var AppComponent = (function () {
         this.selectedDevice = device;
     };
     AppComponent.prototype.check_offline = function (device) {
-        console.log(device);
         var obj = device;
         if (obj.status == true) {
             return true;

@@ -73,7 +73,6 @@ export class AppComponent  {
   }
 
   check_offline(device: any){
-    console.log(device);
     let obj: Device = device;
     if (obj.status == true){
       return true;
