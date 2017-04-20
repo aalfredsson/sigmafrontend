@@ -38,12 +38,19 @@ var AppComponent = (function () {
         this.name = 'Angular';
         this.devices = DEVICES;
     }
+    AppComponent.prototype.check_offline = function (device) {
+        console.log(device);
+        var obj = device;
+        if (obj.status == true) {
+            return true;
+        }
+    };
     return AppComponent;
 }());
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "\n  <h1>Hello {{name}}</h1>\n  <ul>\n    <li *ngFor=\"let device of devices.devices\">\n\n      <span>{{device.id}}</span>{{device.name}}\n    </li>\n  </ul>",
+        template: "\n  <h1>Hello {{name}}</h1>\n  <ul>\n    <li *ngFor=\"let device of devices.devices\">\n\n      <span *ngIf=\"check_offline(device)\">{{device.id}}: {{device.name}}</span>\n    </li>\n  </ul>",
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;

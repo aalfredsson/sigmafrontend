@@ -9,7 +9,7 @@ export class Device {
 
 
 
-var DEVICES = {
+let DEVICES = {
   
 	"devices": [{
 			"id": 1,
@@ -35,6 +35,8 @@ var DEVICES = {
 
 }
 
+
+
 @Component({
   selector: 'my-app',
   template: `
@@ -42,7 +44,7 @@ var DEVICES = {
   <ul>
     <li *ngFor="let device of devices.devices">
 
-      <span>{{device.id}}</span>{{device.name}}
+      <span *ngIf="check_offline(device)">{{device.id}}: {{device.name}}</span>
     </li>
   </ul>`,
 })
@@ -51,4 +53,13 @@ export class AppComponent  {
   name = 'Angular'; 
   devices = DEVICES;
 
+  check_offline(device: any){
+    console.log(device);
+    let obj: Device = device;
+    if (obj.status == true){
+      return true;
+    }
+  }
+
 }
+
