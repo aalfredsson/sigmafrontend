@@ -54,7 +54,8 @@ var AppComponent = (function () {
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "\n  <h1>Hello {{name}}</h1>\n  <ul>\n    <li *ngFor=\"let device of devices.devices\" (click)=\"onSelect(device)\">\n\n      <span *ngIf=\"check_offline(device)\">{{device.id}}: {{device.name}}</span>\n    </li>\n  </ul>\n  <div *ngIf=\"selectedDevice\">\n    <p>{{ selectedDevice.name }}</p>\n  </div>",
+        template: "\n  <h1>Hello {{name}}</h1>\n  <ul>\n    <ng-container *ngFor=\"let device of devices.devices\">\n      <li class=\"list-item\" *ngIf=\"check_offline(device)\" (click)=\"onSelect(device)\">\n        <span>{{device.id}}: {{device.name}}</span>\n      </li>\n    </ng-container>\n  </ul>\n  \n  <div *ngIf=\"selectedDevice\">\n    <p>{{ selectedDevice.name }}</p>\n  </div>",
+        styles: ["\n    .list-item {\n      list-style: none;\n      padding: 10px;\n      border: 1px solid rgba(0,0,0,0.1);\n      border-radius: 25px;\n      margin-bottom: 10px;\n      width: 25%;\n    }"]
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;
