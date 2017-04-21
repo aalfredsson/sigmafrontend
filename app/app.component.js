@@ -16,19 +16,31 @@ var DEVICES = {
     "devices": [{
             "id": 1,
             "name": "king1",
-            "location": "rum21",
+            "location": "staden3",
             "status": false
         },
         {
             "id": 2,
             "name": "king2",
-            "location": "rum22",
+            "location": "1408",
             "status": false
         },
         {
             "id": 3,
             "name": "king3",
-            "location": "rum23",
+            "location": "1408",
+            "status": true
+        },
+        {
+            "id": 4,
+            "name": "kingen",
+            "location": "staden3",
+            "status": true
+        },
+        {
+            "id": 5,
+            "name": "queen",
+            "location": "rummet21",
             "status": true
         }
     ]
@@ -43,7 +55,13 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.check_offline = function (device) {
         var obj = device;
-        if (obj.status == true) {
+        if (obj.status == false) {
+            return true;
+        }
+    };
+    AppComponent.prototype.check_location = function (device) {
+        //skapa ny lista för varje location och sätt location som header ovanför respektive lista
+        if (device["location"] == "1408") {
             return true;
         }
     };
@@ -52,8 +70,8 @@ var AppComponent = (function () {
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "\n  <h1>Hello {{name}}</h1>\n  <ul>\n    <ng-container *ngFor=\"let device of devices.devices\">\n      <li class=\"list-item\" *ngIf=\"check_offline(device)\" (click)=\"onSelect(device)\">\n        <span>{{device.id}}: {{device.name}}</span>\n      </li>\n    </ng-container>\n  </ul>\n  \n  <div *ngIf=\"selectedDevice\">\n    <p>{{ selectedDevice.name }}</p>\n  </div>",
-        styles: ["\n    .list-item {\n      list-style: none;\n      padding: 10px;\n      border: 1px solid rgba(0,0,0,0.1);\n      border-radius: 25px;\n      margin-bottom: 10px;\n      width: 25%;\n    }"]
+        template: "\n  <h1>Hello {{name}}</h1>\n  \n\n  <ng-container *ngFor=\"let device of devices.devices\">\n    <ng-container *ngIf=\"check_location(device)\">\n      <div class=\"list-item\" *ngIf=\"check_offline(device)\" (click)=\"onSelect(device)\">\n        <span>ID: {{ device.id }} Name: {{ device.name }}</span>\n        <span class=\"spawn\">{{ device.status }}</span>\n      </div>\n    </ng-container>\n  </ng-container>\n\n  \n  \n  <div *ngIf=\"selectedDevice\">\n    <p>{{ selectedDevice.location }}</p>\n  </div>",
+        styles: ["\n    .list-item {\n      padding: 10px;\n      border: 1px solid rgba(0,0,0,0.1);\n      border-radius: 25px;\n      margin-bottom: 10px;\n      width: 25%;\n      display: flex;\n    }\n    \n    .spawn {\n      margin-left: auto;\n    }"]
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;

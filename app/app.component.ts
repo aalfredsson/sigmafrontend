@@ -14,20 +14,31 @@ let DEVICES = {
 	"devices": [{
 			"id": 1,
 			"name": "king1",
-			"location": "rum21",
+			"location": "staden3",
 			"status": false
-
 		},
 		{
 			"id": 2,
 			"name": "king2",
-			"location": "rum22",
+			"location": "1408",
 			"status": false
 		},
 		{
 			"id": 3,
 			"name": "king3",
-			"location": "rum23",
+			"location": "1408",
+			"status": true
+		},
+		{
+			"id": 4,
+			"name": "kingen",
+			"location": "staden3",
+			"status": true
+		},
+		{
+			"id": 5,
+			"name": "queen",
+			"location": "rummet21",
 			"status": true
 		}
 	]
@@ -41,25 +52,34 @@ let DEVICES = {
   selector: 'my-app',
   template: `
   <h1>Hello {{name}}</h1>
-  <ul>
-    <ng-container *ngFor="let device of devices.devices">
-      <li class="list-item" *ngIf="check_offline(device)" (click)="onSelect(device)">
-        <span>{{device.id}}: {{device.name}}</span>
-      </li>
+  
+
+  <ng-container *ngFor="let device of devices.devices">
+    <ng-container *ngIf="check_location(device)">
+      <div class="list-item" *ngIf="check_offline(device)" (click)="onSelect(device)">
+        <span>ID: {{ device.id }} Name: {{ device.name }}</span>
+        <span class="spawn">{{ device.status }}</span>
+      </div>
     </ng-container>
-  </ul>
+  </ng-container>
+
+  
   
   <div *ngIf="selectedDevice">
-    <p>{{ selectedDevice.name }}</p>
+    <p>{{ selectedDevice.location }}</p>
   </div>`,
   styles: [`
     .list-item {
-      list-style: none;
       padding: 10px;
       border: 1px solid rgba(0,0,0,0.1);
       border-radius: 25px;
       margin-bottom: 10px;
       width: 25%;
+      display: flex;
+    }
+    
+    .spawn {
+      margin-left: auto;
     }`]
 })
 
@@ -74,10 +94,17 @@ export class AppComponent  {
 
   check_offline(device: any){
     let obj: Device = device;
-    if (obj.status == true){
+    if (obj.status == false){
       return true;
     }
   }
 
-}
+  check_location(device: any){
+    //skapa ny lista för varje location och sätt location som header ovanför respektive lista
+    if(device["location"] == "1408"){
+      return true;
+    }
+    
+  }
 
+}
