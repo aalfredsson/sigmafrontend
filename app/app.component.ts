@@ -14,8 +14,8 @@ let DEVICES = {
     "devices": [{
         "id": 1,
         "name": "king1",
-        "location": "rum21",
-        "status": false,
+        "location": "rum24",
+        "status": true,
         "signalStrength": "-90 dbm",
         "battery": "65%",
         "lastSeen": "15 min"
@@ -23,8 +23,8 @@ let DEVICES = {
         {
             "id": 2,
             "name": "king2",
-            "location": "rum22",
-            "status": false,
+            "location": "rum23",
+            "status": true,
             "signalStrength": "-62 dbm",
             "battery": "0%",
             "lastSeen": "10 min"
@@ -33,24 +33,24 @@ let DEVICES = {
             "id": 3,
             "name": "king3",
             "location": "rum23",
-            "status": true,
+            "status": false,
             "signalStrength": "-53 dbm",
             "battery": "80%",
             "lastSeen": "1 min"
         },
         {
             "id": 4,
-            "name": "king3",
-            "location": "rum23",
-            "status": false,
+            "name": "queen1",
+            "location": "rum24",
+            "status": true,
             "signalStrength": "-54 dbm",
             "battery": "44%",
             "lastSeen": "10 min"
         },
         {
             "id": 5,
-            "name": "king3",
-            "location": "rum23",
+            "name": "king4",
+            "location": "rum25",
             "status": false,
             "signalStrength": "-23 dbm",
             "battery": "83%",
@@ -61,6 +61,52 @@ let DEVICES = {
 
 }
 
+let LOCATIONS = {
+  "locations":
+  [{
+    "id": 20,
+    "name": "dockplatsen1",
+    "rooms": [
+    {
+      "id": 15,
+      "name": "rum23",
+      "devices": [
+        {
+          "id": 5,
+          "name": "king3"
+        },
+        {
+          "id": 4,
+          "name": "king2"
+        }
+      ]},
+      {
+      "id": 25,
+      "name": "rum24",
+      "devices": [
+        {
+          "id": 3,
+          "name": "king1"
+        },
+        {
+          "id": 2,
+          "name": "queen1"
+        }
+      ]
+      }
+
+
+    ]},
+  {
+    "id": 10,
+    "name": "orkanen",
+    "rooms": [{
+      "id": 1,
+      "name": "rum25"
+    }]
+  } 
+]}
+
 
 
 
@@ -70,19 +116,17 @@ let DEVICES = {
     template: `
   <h1>Hello {{name}}</h1>
   <div class="location-box">
-    <select id="device_location_list">
-      <ng-container *ngFor="let device of devices.devices">
-        <option *ngIf="no_duplicates(device)">{{device.location}}</option>
+    <select id="device_location_list" (change)="onChange()">
+      <ng-container *ngFor="let location of locations.locations;">
+        <option *ngFor="let room of location.rooms" value="{{room.name}}">{{room.name}}</option>
       </ng-container>
     </select>
 
     <ng-container *ngFor="let device of devices.devices">
-      <ng-container *ngIf="check_location(device)">
-        <div class="list-item" *ngIf="check_offline(device)" (click)="onSelect(device)">
-          <span>ID: {{ device.id }} Name: {{ device.name }}</span>
-          <span class="spawn">{{ device.status }}</span>
-        </div>
-      </ng-container>
+      <div class="list-item" *ngIf="device_by_room(device)" (click)="onSelect(device)">
+        <span>ID: {{ device.id }} Name: {{ device.name }}</span>
+        <span class="spawn">{{ device.status }}</span>
+      </div>
     </ng-container>
   </div>
 
@@ -117,42 +161,43 @@ let DEVICES = {
 
 export class AppComponent  { 
   name = 'Angular'; 
+  locations = LOCATIONS;
   devices = DEVICES;
   selectedDevice: Device;
+  selectedRoom: string;
 
   onSelect(device: Device): void {
       this.selectedDevice = device;
   }
 
+  onChange(): void {
+    var mySelect: any = document.getElementById("device_location_list");
+    var selectedRoom: string = mySelect.options[mySelect.selectedIndex].value;
+    this.selectedRoom = selectedRoom;
+  }
+
+  device_by_room(device: any){
+    if (device.location == this.selectedRoom){
+      return true;
+    }
+  }
+
   check_offline(device: any){
     let obj: Device = device;
-    if (obj.status == false){
+    if (obj.status == true){
       return true;
     }
   }
 
   check_location(device: any){
     //skapa ny lista för varje location och sätt location som header ovanför respektive lista
-    if(device["location"] == "rum23"){
+    console.log(this.selectedRoom);
+    if(device["location"] == this.selectedRoom){
       return true;
     }
     
   }
 
-  no_duplicates(device: any){
-    var mySelect: any = document.getElementById("device_location_list");
-    var mySelectLength: number = mySelect.length - 1;
-    console.log(mySelect);
-    if(mySelect.length != 0){
-      for(var i = 0; i < mySelect.length; i++){
-        if (mySelect.options[mySelectLength].value != device.location){
-          return true;
-        }
-      }
-    }
-    else{
-      return true;
-    }
-  }
+
 
 }
