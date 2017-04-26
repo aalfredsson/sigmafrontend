@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
+
+declare var $: any;
+
 
 export class Device {
     id: number;
@@ -67,7 +70,7 @@ let DEVICES = {
 
     <ng-container *ngFor="let device of devices.devices">
         <div class="list-item" *ngIf="check_offline(device)" (click)="onSelect(device)">
-       {{all_offline_devices(device)}}
+            <a class="demo01" href="#animatedModal">{{all_offline_devices(device)}}</a>
         </div>
     </ng-container>
 
@@ -78,13 +81,19 @@ let DEVICES = {
     
 })
 
-export class OfflineComponent  { 
+export class OfflineComponent implements AfterViewInit  { 
+
   name = 'Angular'; 
   devices = DEVICES;
   selectedDevice: Device;
 
   onSelect(device: Device): void {
       this.selectedDevice = device;
+  }
+
+  ngAfterViewInit(): void {
+      $("#animatedModal").show();
+      $(".demo01").animatedModal();
   }
 
   check_offline(device: any){
