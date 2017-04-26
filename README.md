@@ -1,2 +1,2 @@
-# sigmafrontend
-Sigma FrontEnd Webapp
+# sigma_front-end
+Sigma Front-End Webbapp
