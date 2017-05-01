@@ -7,7 +7,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+=======
+
+>>>>>>> origin/master
           <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
               
     <base href="/">
@@ -29,7 +34,7 @@
       
     </head>
 
-  <body>
+ <body>
     <br>
         <div class="container">
             <div class="row">
@@ -66,7 +71,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-   <td><offline-devices>Loading OfflineComponent content here ...</offline-devices> <a id="demo01" href="#animatedModal"> Device 5</a></td>
+   <td><offline-devices>Loading OfflineComponent content here ...</offline-devices></td>
                                                     
 
                                         </tr>
@@ -77,7 +82,7 @@
                     </div>
                     
                     <div class="panel panel-default">
-                        <div class="panel-heading">Room specific</div>
+                        <div class="panel-heading">Filter</div>
                         <div class="panel-body">
                             <div class="dropdown">
                                 
@@ -120,37 +125,106 @@
     <div id="animatedModal">
         <!--THIS IS IMPORTANT! to close the modal, the class name has to match the name given on the ID  class="close-animatedModal" -->
         <div class="close-animatedModal"> 
-            <p style="cursor: pointer; margin-top: 0.5em; margin-right: 0.5em; text-align: right;">X</p>
+            <p style="cursor: pointer;
+margin-top: 0.5em;
+margin-right: 0.5em;
+text-align: right;
+position: absolute;
+z-index: 2;
+width: 10px;
+right: 1em;">X</p>
         </div>
             
         <div class="modal-content">
             <br>
-            <div style="text-align: center;">
-            <p><strong>Battery:</strong> 80 %</p>
-            <p><strong>Signal:</strong> -53 dBm</p>
-            <p><strong>Last Seen:</strong> 5 min</p>
-            </div>
-            <br>
-        </div>
+           <div class="container text-center"> 
+<div style="text-align: right;">
+<p style="display: inline; margin-right: 0.5em;"> Batteri <span class="label" style="color: #000; border: 1px solid;">87%</span></p>
+<p style="display: inline; margin-right: 0.5em;"> Signal <span class="label" style="color: #000; border: 1px solid;">-53 dBm</span></p>
+<p style="display: inline; margin-right: 0.5em;"> Last seen <span class="label" style="color: #000; border: 1px solid;">5 min</span></p>
+<div class="dropdown" style="display: inline;">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Se fler attribut
+    <span class="caret"></span>
+  </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+</div>
+    
+      <div class="button" style="display: inline; position: absolute; right: 12px; bottom: 635px;">
+    <button type="button" class="close" aria-label="Close">
+ <!-- <span aria-hidden="true">&times;</span> -->
+</button>
     </div>
-            
-
+    
+</div>
+<br>
+  <h3>Statistics</h3>
+               <br>
+  <div class="row">
+   <div class="col-sm-4">
+        <p><img src="https://placehold.it/400x190?text=GRAPH 1" class="img-responsive" style="width:100%" alt="Image"></p>
+      </div>
+      
+    <div class="col-sm-4">
+      <p><img src="https://placehold.it/400x190?text=GRAPH 2" class="img-responsive" style="width:100%" alt="Image"></p>
+    </div>
+    
+      <div class="col-sm-4">
+	 <p><img src="https://placehold.it/400x190?text=GRAPH 3" class="img-responsive" style="width:100%" alt="Image"></p>
+	</div>
+    </div>
+    <div class="row">
         
+      <div class="col-sm-12" >
+      <img src="https://placehold.it/1200x590?text=FLOOR PLAN" class="img-responsive" style="height: 400px; width:100%" alt="Image">
+    </div>
+               </div>
+         </div>
+    </div>
+            <footer class="container-fluid text-center">
+                <br>
+            <p>Intelligent Monitoring</p>
+        </footer>
+
+      </div>
         <br>
         
         <br>
         
         <footer class="container-fluid text-center">
             <p>Intelligent Monitoring</p>
+            <button style="background: none;
+border:0;
+color: blue;" id="action-button">/Locations</button>
+<div id="info"></div>
+           
         </footer>
         
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+       
   <script src="//intelligentmonitoringwebapp.azurewebsites.net/js/animatedModal.min.js"></script>
+              <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         
-       <script>
-  $("#demo01").animatedModal();
-</script>
+
       
+      <script>
+      $('#action-button').click(function() {
+         $('#info').empty(); $.getJSON('http://intelligentmonitoringapi.azurewebsites.net/api/Locations', function(data){
+              for (var i = 0; i < data.length; i++) {
+     var $title = $('<h5>').text('Name: ' + data[i].name);
+              var $location = $('<h5>').text('Location: ' + data[i].parentLocationName);
+         $('#info').append($title).append($location);
+              }
+});
+      });
+          
+      </script>
+
       
   </body>
 </html>
