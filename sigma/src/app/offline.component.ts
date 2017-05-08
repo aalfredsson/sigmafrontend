@@ -63,7 +63,6 @@ let DEVICES = {
 
 }
 
-
 @Component({
     selector: 'offline-devices',
     template: `
@@ -72,11 +71,7 @@ let DEVICES = {
         <div class="list-item" *ngIf="check_offline(device)" (click)="onSelect(device)">
             <a class="demo01" href="#animatedModal">{{all_offline_devices(device)}}</a>
         </div>
-    </ng-container>
-
-
-  
-  
+    </ng-container>  
 `,
     
 })

@@ -96,7 +96,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-<td><filter-devices>Loading AppComponent content here ...</filter-devices></td>
+<td><my-app>Loading AppComponent content here ...</my-app></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -195,13 +195,14 @@ right: 1em;">X</p>
         <br>
         
         <br>
-        
+         
+            
         <footer class="container-fluid text-center">
             <p>Intelligent Monitoring</p>
-            <button style="background: none;
-border:0;
-color: blue;" id="action-button">/Locations</button>
-<div id="info"></div>
+            <hero-detail [hero]="selectedHero"></hero-detail>
+                 
+           <filter-devices>Loading AppComponent content here ...</filter-devices>
+                       
            
         </footer>
         
@@ -209,21 +210,6 @@ color: blue;" id="action-button">/Locations</button>
   <script src="//intelligentmonitoringwebapp.azurewebsites.net/js/animatedModal.min.js"></script>
               <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         
-
-      
-      <script>
-      $('#action-button').click(function() {
-         $('#info').empty(); $.getJSON('http://intelligentmonitoringapi.azurewebsites.net/api/Locations', function(data){
-              for (var i = 0; i < data.length; i++) {
-     var $title = $('<h5>').text('Name: ' + data[i].name);
-              var $location = $('<h5>').text('Location: ' + data[i].parentLocationName);
-         $('#info').append($title).append($location);
-              }
-});
-      });
-          
-      </script>
-
       
   </body>
 </html>

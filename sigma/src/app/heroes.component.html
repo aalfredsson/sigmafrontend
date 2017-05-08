@@ -1,0 +1,12 @@
+<ul class="devices">
+ <a *ngFor="let device of devices" (click)="gotoDetail()"> <li  (click)="onSelect(device)"
+      [class.selected]="device === selectedDevice">
+    <span class="badge">{{device.$id}}</span>
+    <span>{{device.name}}</span>
+  </li></a>
+</ul>
+<div *ngIf="selectedDevice">
+  <h2>
+    {{selectedDevice.name | uppercase}}
+  </h2>
+</div>

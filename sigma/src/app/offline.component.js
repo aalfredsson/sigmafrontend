@@ -5,7 +5,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Device = (function () {
     function Device() {
@@ -145,7 +144,7 @@ var OfflineComponent = (function () {
 OfflineComponent = __decorate([
     core_1.Component({
         selector: 'offline-devices',
-        template: "\n\n    <ng-container *ngFor=\"let device of devices.devices\">\n        <div class=\"list-item\" *ngIf=\"check_offline(device)\" (click)=\"onSelect(device)\">\n            <a class=\"demo01\" href=\"#animatedModal\">{{all_offline_devices(device)}}</a>\n        </div>\n    </ng-container>\n\n\n  \n  \n",
+        template: "\n\n    <ng-container *ngFor=\"let device of devices.devices\">\n        <div class=\"list-item\" *ngIf=\"check_offline(device)\" (click)=\"onSelect(device)\">\n            <a class=\"demo01\" href=\"#animatedModal\">{{all_offline_devices(device)}}</a>\n        </div>\n    </ng-container>  \n",
     })
 ], OfflineComponent);
 exports.OfflineComponent = OfflineComponent;
