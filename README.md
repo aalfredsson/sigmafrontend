@@ -1,2 +1,0 @@
-# sigmafrontend
-Sigma FrontEnd Webapp

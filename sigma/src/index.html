@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+      
+       <title>Intelligent monitoring</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+          <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
+              
+    <base href="/">
+    
+    <link rel="stylesheet" href="styles.css">
+      
+    <!-- Polyfill(s) for older browsers -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="js/lodash.min.js"></script>
+    <script src="systemjs.config.js"></script>
+    <script>
+      System.import('main.js').catch(function(err){ console.error(err); });
+    </script>
+      
+                     
+      
+    </head>
+
+  <body>
+    <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6"> 
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Positive box</div>
+                            <overview-devices>Loading AppComponent content here ...</overview-devices>
+                    </div>
+                    
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Search device</div>
+                        <div class="panel-body">
+                            <form class="navbar-form" role="search">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Search">
+                                </div>
+                                <button type="submit" class="btn btn-default">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="col-sm-6"> 
+                    <div id="panel_offline" class="panel panel-default">
+                        <div class="panel-heading">Offline devices </div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Device</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+   <td><offline-devices>Loading OfflineComponent content here ...</offline-devices></td>
+                                                    
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Room specific</div>
+                        <div class="panel-body">
+                            <div class="dropdown">
+                                
+                               
+                            </div>
+                            <div class="list-group">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Device</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+<td><filter-devices>Loading AppComponent content here ...</filter-devices></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+
+                </div>
+            </div>
+        </div>
+      
+      <br>
+            
+            
+             <!--Call your modal-->
+    
+
+    <!--DEMO01-->
+    <div id="animatedModal">
+        <!--THIS IS IMPORTANT! to close the modal, the class name has to match the name given on the ID  class="close-animatedModal" -->
+        <div class="close-animatedModal"> 
+            <p style="cursor: pointer; margin-top: 0.5em; margin-right: 0.5em; text-align: right;">X</p>
+        </div>
+            
+        <div class="modal-content">
+            <br>
+            <div style="text-align: center;">
+            <p><strong>Battery:</strong> 80 %</p>
+            <p><strong>Signal:</strong> -53 dBm</p>
+            <p><strong>Last Seen:</strong> 5 min</p>
+            </div>
+            <br>
+        </div>
+    </div>
+            
+
+        
+        <br>
+        
+        <br>
+        
+        <footer class="container-fluid text-center">
+            <p>Intelligent Monitoring</p>
+        </footer>
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+        <script type="text/javascript" src="tablesorter/jquery.tablesorter.js"></script>
+  <script src="//intelligentmonitoringwebapp.azurewebsites.net/js/animatedModal.min.js"></script>
+              <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://d3js.org/d3.v3.min.js"></script>
+      
+      
+  </body>
+</html>
