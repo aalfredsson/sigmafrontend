@@ -1,169 +1,93 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Pipe, Injectable, PipeTransform } from '@angular/core';
+import { Router }            from '@angular/router';
+
+import { Device }                from './device';
+import { DeviceService }         from './hero.service';
 
 declare var $: any;
 
+const epochs: any = [
+    ['year', 31536000],
+    ['month', 2592000],
+    ['day', 86400],
+    ['hour', 3600],
+    ['minute', 60],
+    ['second', 1]
+];
 
-export class Device {
-    id: number;
-    name: string;
-    location: string;
-    status: boolean;
-}
+@Pipe({name: 'relativeDate'})
 
+@Injectable()
+export class UniquePipe2 implements PipeTransform {
+   getDuration(timeAgoInSeconds: number) {
+        for (let [name, seconds] of epochs) {
+            let interval = Math.floor(timeAgoInSeconds / seconds);
 
-
-let DEVICES = {
-  
-	"devices": [{
-			"id": 1,
-			"name": "Device 1",
-			"location": "rum21",
-            "status": false,
-            "signalStrength": -90,
-            "battery": 65,
-            "lastSeen": "15 min"
-		},
-		{
-			"id": 2,
-			"name": "Device 2",
-			"location": "rum22",
-            "status": false,
-            "signalStrength": -62,
-            "battery": 0,
-            "lastSeen": "10 min"
-		},
-		{
-			"id": 3,
-			"name": "Device 3",
-			"location": "rum23",
-            "status": true,
-            "signalStrength": -53,
-            "battery": 5,
-            "lastSeen": "1 min"
-        },
-        {
-            "id": 4,
-            "name": "Device 4",
-            "location": "rum23",
-            "status": false,
-            "signalStrength": -54,
-            "battery": 0,
-            "lastSeen": "10 min"
-        },
-        {
-            "id": 5,
-            "name": "Device 5",
-            "location": "rum23",
-            "status": false,
-            "signalStrength": -80,
-            "battery": 83,
-            "lastSeen": "1 min"
+            if (interval >= 1) {
+                return {
+                    interval: interval,
+                    epoch: name
+                };
+            }
         }
-    ]
+        return {
+            interval: 0,
+            epoch: 'seconds'
+        };
+    };
 
-}
+
+    transform(dateStamp: number): string {
+
+        let timeAgoInSeconds = Math.floor((new Date().getTime() - new Date(dateStamp).getTime()) / 1000);
+        let {interval, epoch} = this.getDuration(timeAgoInSeconds);
+        let suffix = interval === 1 ? '' : 's';
+
+        return `${interval} ${epoch}${suffix} ago`;
+
+    }
+    }
+ 
 
 @Component({
-    selector: 'offline-devices',
-    template: `
-
-    <ng-container *ngFor="let device of devices.devices">
-        <div class="list-item" *ngIf="check_offline(device)" (click)="onSelect(device)">
-            <a class="demo01" href="#animatedModal">{{all_offline_devices(device)}}</a>
-        </div>
-    </ng-container>  
-`,
-    
+  selector: 'offline-devices',
+  templateUrl: './offline.component.html',
+  styleUrls: [ './heroes.component.css' ]
 })
 
-export class OfflineComponent implements AfterViewInit  { 
 
-  name = 'Angular'; 
-  devices = DEVICES;
+export class OfflineComponent implements OnInit {
+  devices: Device[];
   selectedDevice: Device;
 
+  constructor(
+    private deviceService: DeviceService,
+    private router: Router) { }
+
+  getHeroes(): void {
+    this.deviceService
+        .getHeroes()
+        .then(devices => this.devices = devices);
+  }
+
+  ngOnInit(): void {
+    this.getHeroes();
+
+ $("#device_filter2").tablesorter();
+      $("#device_filter2").bind("DOMSubtreeModified", function(){
+          $("#device_filter2").trigger("update"); 
+      })
+
+  }
+
+
+
   onSelect(device: Device): void {
-      this.selectedDevice = device;
+    this.selectedDevice = device;
   }
 
-  ngAfterViewInit(): void {
-      $("#animatedModal").show();
-      $(".demo01").animatedModal();
-  }
-
-  check_offline(device: any){
-    if (device.status == false){
-      return true;
-    }
-  }
-
-  all_offline_devices(device: any){
-      if(device.status == false){
-        return device.name;
-      }
-    }
-    
-     devicesID(device: any){
-        return device.id;
-    }
-
-
-    devices_online(devices: any) {
-        var count: number = 0;
-        for (let device of devices.devices) {
-            if (device.status == true) {
-                count = count + 1;
-            }
-        }
-        var online_percent: number = (count / devices.devices.length) * 100;
-        return Math.round(online_percent);
-  }
-
-    devices_offline(devices: any) {
-        var count: number = 0;
-        for (let device of devices.devices) {
-            if (device.status == false) {
-                count = count + 1;
-            }
-        }
-        var online_percent: number = (count / devices.devices.length) * 100;
-        return Math.round(online_percent);
-    }
-
-    warning_devices(devices: any) {
-        var count: number = 0;
-        for (let device of devices.devices) {
-            if ((device.battery < 20) && (device.battery > 0)) {
-                count = count + 1;
-            }
-        }
-        var online_percent: number = (count / devices.devices.length) * 100;
-        return Math.round(online_percent);
-    }
-
-
-  check_location(device: any){
-    //skapa ny lista för varje location och sätt location som header ovanför respektive lista
-    if(device["location"] == "rum22"){
-      return true;
-    }
-    
-  }
-
-  no_duplicates(device: any){
-    var mySelect: any = document.getElementById("device_location_list");
-    var mySelectLength: number = mySelect.length - 1;
-    console.log(mySelect);
-    if(mySelect.length != 0){
-      for(var i = 0; i < mySelect.length; i++){
-        if (mySelect.options[mySelectLength].value != device.location){
-          return true;
-        }
-      }
-    }
-    else{
-      return true;
-    }
+  gotoDetail(): void {
+    this.router.navigate(['/device', this.selectedDevice.id]);
   }
 
 }

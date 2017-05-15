@@ -4,6 +4,94 @@ h1 {
   font-size: 250%;
 }
 
-#animatedModal {
-    display: none;
+.panel-heading {
+    font-family: Futura;
+    width: 130px;
+    text-align: center;
+}
+
+body {
+    background: #f7f7f7;
+}
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+    border-top: 1px solid #fff !important;
+}
+
+.panel-default {
+    border-color:#eee !important;
+}
+
+.panel {
+    box-shadow: none !important;
+}
+
+.panel-default > .panel-heading {
+    color: #fff !important;
+    background: #333 !important;
+    border-color: #f7f7f7 !important;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+.tablesorter td {
+    border-bottom: 10px solid #fff;
+    padding: 1em; 
+    background: #eee;
+    border-top: 10px solid #fff;
+    color: #666;
+     border-radius: 8px;
+}
+.tablesorter td:hover, .tablesorter th:hover {
+    cursor: pointer;
+  
+}
+
+.progress {
+    margin-top: 10px !important;
+    margin-bottom: 0 !important;
+}
+
+#graphy rect:hover {
+  fill: brown !important;
+}
+
+
+#graphy2 rect:hover {
+  fill: brown !important;
+}
+
+.axis {
+	  font: 10px sans-serif;
+	}
+
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #fff !important;
+}
+
+
+/*  GO FULL WIDTH BELOW 480 PIXELS */
+@media only screen and (max-width: 980px) {
+	.helpful {  display: none; }
+}
+
+/*  GO FULL WIDTH BELOW 480 PIXELS */
+@media only screen and (max-width: 580px) {
+	.blockit h5 {  display: block !important; margin-top: 2em !important; margin-bottom: 2em !important; }
+    .blockit { text-align: center !important;  }
 }

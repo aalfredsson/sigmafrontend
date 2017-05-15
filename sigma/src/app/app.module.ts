@@ -11,7 +11,15 @@ import { DeviceDetailComponent }  from './hero-detail.component';
 import { DeviceService }          from './hero.service';
 import { OfflineComponent }          from './offline.component';
 import { FilteringComponent }          from './filtering.component';
+import { UniquePipe }          from './filtering.component';
+import { UniquePipe2 }          from './offline.component';
+import { SearchComponent }          from './search-component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 import { OverviewComponent }          from './overview.component';
+
+
 
 @NgModule({
   imports: [
@@ -19,6 +27,7 @@ import { OverviewComponent }          from './overview.component';
     FormsModule,
     HttpModule,
     AppRoutingModule,
+    BrowserAnimationsModule
   ],
   declarations: [
     AppComponent,
@@ -26,9 +35,12 @@ import { OverviewComponent }          from './overview.component';
     DevicesComponent,
     OfflineComponent,
     FilteringComponent,
-    OverviewComponent
+    OverviewComponent,
+    UniquePipe,
+    UniquePipe2,
+    SearchComponent
   ],
   providers: [ DeviceService ],
-  bootstrap: [ AppComponent, OfflineComponent, FilteringComponent, OverviewComponent ]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

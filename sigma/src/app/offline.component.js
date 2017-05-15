@@ -5,147 +5,87 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var core_1 = require("@angular/core");
-var Device = (function () {
-    function Device() {
-    }
-    return Device;
-}());
-exports.Device = Device;
-var DEVICES = {
-    "devices": [{
-            "id": 1,
-            "name": "Device 1",
-            "location": "rum21",
-            "status": false,
-            "signalStrength": -90,
-            "battery": 65,
-            "lastSeen": "15 min"
-        },
-        {
-            "id": 2,
-            "name": "Device 2",
-            "location": "rum22",
-            "status": false,
-            "signalStrength": -62,
-            "battery": 0,
-            "lastSeen": "10 min"
-        },
-        {
-            "id": 3,
-            "name": "Device 3",
-            "location": "rum23",
-            "status": true,
-            "signalStrength": -53,
-            "battery": 5,
-            "lastSeen": "1 min"
-        },
-        {
-            "id": 4,
-            "name": "Device 4",
-            "location": "rum23",
-            "status": false,
-            "signalStrength": -54,
-            "battery": 0,
-            "lastSeen": "10 min"
-        },
-        {
-            "id": 5,
-            "name": "Device 5",
-            "location": "rum23",
-            "status": false,
-            "signalStrength": -80,
-            "battery": 83,
-            "lastSeen": "1 min"
-        }
-    ]
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var OfflineComponent = (function () {
-    function OfflineComponent() {
-        this.name = 'Angular';
-        this.devices = DEVICES;
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var hero_service_1 = require("./hero.service");
+var epochs = [
+    ['year', 31536000],
+    ['month', 2592000],
+    ['day', 86400],
+    ['hour', 3600],
+    ['minute', 60],
+    ['second', 1]
+];
+var UniquePipe2 = (function () {
+    function UniquePipe2() {
     }
+    UniquePipe2.prototype.getDuration = function (timeAgoInSeconds) {
+        for (var _i = 0, epochs_1 = epochs; _i < epochs_1.length; _i++) {
+            var _a = epochs_1[_i], name_1 = _a[0], seconds = _a[1];
+            var interval = Math.floor(timeAgoInSeconds / seconds);
+            if (interval >= 1) {
+                return {
+                    interval: interval,
+                    epoch: name_1
+                };
+            }
+        }
+        return {
+            interval: 0,
+            epoch: 'seconds'
+        };
+    };
+    ;
+    UniquePipe2.prototype.transform = function (dateStamp) {
+        var timeAgoInSeconds = Math.floor((new Date().getTime() - new Date(dateStamp).getTime()) / 1000);
+        var _a = this.getDuration(timeAgoInSeconds), interval = _a.interval, epoch = _a.epoch;
+        var suffix = interval === 1 ? '' : 's';
+        return interval + " " + epoch + suffix + " ago";
+    };
+    return UniquePipe2;
+}());
+UniquePipe2 = __decorate([
+    core_1.Pipe({ name: 'relativeDate' }),
+    core_1.Injectable()
+], UniquePipe2);
+exports.UniquePipe2 = UniquePipe2;
+var OfflineComponent = (function () {
+    function OfflineComponent(deviceService, router) {
+        this.deviceService = deviceService;
+        this.router = router;
+    }
+    OfflineComponent.prototype.getHeroes = function () {
+        var _this = this;
+        this.deviceService
+            .getHeroes()
+            .then(function (devices) { return _this.devices = devices; });
+    };
+    OfflineComponent.prototype.ngOnInit = function () {
+        this.getHeroes();
+        $("#device_filter2").tablesorter();
+        $("#device_filter2").bind("DOMSubtreeModified", function () {
+            $("#device_filter2").trigger("update");
+        });
+    };
     OfflineComponent.prototype.onSelect = function (device) {
         this.selectedDevice = device;
     };
-    OfflineComponent.prototype.ngAfterViewInit = function () {
-        $("#animatedModal").show();
-        $(".demo01").animatedModal();
-    };
-    OfflineComponent.prototype.check_offline = function (device) {
-        if (device.status == false) {
-            return true;
-        }
-    };
-    OfflineComponent.prototype.all_offline_devices = function (device) {
-        if (device.status == false) {
-            return device.name;
-        }
-    };
-    OfflineComponent.prototype.devicesID = function (device) {
-        return device.id;
-    };
-    OfflineComponent.prototype.devices_online = function (devices) {
-        var count = 0;
-        for (var _i = 0, _a = devices.devices; _i < _a.length; _i++) {
-            var device = _a[_i];
-            if (device.status == true) {
-                count = count + 1;
-            }
-        }
-        var online_percent = (count / devices.devices.length) * 100;
-        return Math.round(online_percent);
-    };
-    OfflineComponent.prototype.devices_offline = function (devices) {
-        var count = 0;
-        for (var _i = 0, _a = devices.devices; _i < _a.length; _i++) {
-            var device = _a[_i];
-            if (device.status == false) {
-                count = count + 1;
-            }
-        }
-        var online_percent = (count / devices.devices.length) * 100;
-        return Math.round(online_percent);
-    };
-    OfflineComponent.prototype.warning_devices = function (devices) {
-        var count = 0;
-        for (var _i = 0, _a = devices.devices; _i < _a.length; _i++) {
-            var device = _a[_i];
-            if ((device.battery < 20) && (device.battery > 0)) {
-                count = count + 1;
-            }
-        }
-        var online_percent = (count / devices.devices.length) * 100;
-        return Math.round(online_percent);
-    };
-    OfflineComponent.prototype.check_location = function (device) {
-        //skapa ny lista för varje location och sätt location som header ovanför respektive lista
-        if (device["location"] == "rum22") {
-            return true;
-        }
-    };
-    OfflineComponent.prototype.no_duplicates = function (device) {
-        var mySelect = document.getElementById("device_location_list");
-        var mySelectLength = mySelect.length - 1;
-        console.log(mySelect);
-        if (mySelect.length != 0) {
-            for (var i = 0; i < mySelect.length; i++) {
-                if (mySelect.options[mySelectLength].value != device.location) {
-                    return true;
-                }
-            }
-        }
-        else {
-            return true;
-        }
+    OfflineComponent.prototype.gotoDetail = function () {
+        this.router.navigate(['/device', this.selectedDevice.id]);
     };
     return OfflineComponent;
 }());
 OfflineComponent = __decorate([
     core_1.Component({
         selector: 'offline-devices',
-        template: "\n\n    <ng-container *ngFor=\"let device of devices.devices\">\n        <div class=\"list-item\" *ngIf=\"check_offline(device)\" (click)=\"onSelect(device)\">\n            <a class=\"demo01\" href=\"#animatedModal\">{{all_offline_devices(device)}}</a>\n        </div>\n    </ng-container>  \n",
-    })
+        templateUrl: './offline.component.html',
+        styleUrls: ['./heroes.component.css']
+    }),
+    __metadata("design:paramtypes", [hero_service_1.DeviceService,
+        router_1.Router])
 ], OfflineComponent);
 exports.OfflineComponent = OfflineComponent;
 //# sourceMappingURL=offline.component.js.map

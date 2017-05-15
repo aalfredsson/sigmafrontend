@@ -1,13 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
 
+
 import { Device }                from './device';
 import { DeviceService }         from './hero.service';
+import { trigger, style, transition, animate, group }
+    from '@angular/animations';
 
 @Component({
-  selector: 'my-heroes',
   templateUrl: './heroes.component.html',
-  styleUrls: [ './heroes.component.css' ]
+  styleUrls: [ './heroes.component.css' ],
+   animations: [
+  trigger('itemAnim', [
+    transition(':enter', [
+      style({opacity: '0'}),
+        animate(1500)
+    ]),
+    transition(':leave', [
+      group([
+        animate('0s ease', style({
+          opacity: '0'
+        })),
+        animate('0s 0s ease', style({
+          opacity: 0
+        }))
+      ])
+    ])
+  ])
+]   
 })
 export class DevicesComponent implements OnInit {
   devices: Device[];
@@ -21,15 +41,18 @@ export class DevicesComponent implements OnInit {
     this.deviceService
         .getHeroes()
         .then(devices => this.devices = devices);
+       
   }
 
   ngOnInit(): void {
     this.getHeroes();
-  }
+}
 
   onSelect(device: Device): void {
     this.selectedDevice = device;
+    
   }
+
 
   gotoDetail(): void {
     this.router.navigate(['/device', this.selectedDevice.id]);

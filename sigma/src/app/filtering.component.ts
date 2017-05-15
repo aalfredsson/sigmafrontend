@@ -1,147 +1,95 @@
-import { Component } from '@angular/core';
+import { Component, enableProdMode, OnInit, Pipe, PipeTransform, Injectable  } from '@angular/core';
+import {Http, Headers, URLSearchParams} from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser'
+import { Router }        from '@angular/router';
 
-export class Device {
-    id: number;
-    name: string;
-    location: string;
-    status: boolean;
-}
-
+import { Device }        from './device';
+import { DeviceService } from './hero.service';
 
 
-let DEVICES = {
+declare var $: any;
+declare var _: any;
 
-    "devices": [{
-        "id": 1,
-        "name": "Device 1",
-        "location": "rum24",
-        "status": true,
-        "signalStrength": "-90 dbm",
-        "battery": "65%",
-        "lastSeen": "15 min"
-    },
-        {
-            "id": 2,
-            "name": "Device 2",
-            "location": "rum23",
-            "status": true,
-            "signalStrength": "-62 dbm",
-            "battery": "0%",
-            "lastSeen": "10 min"
-        },
-        {
-            "id": 3,
-            "name": "Device 3",
-            "location": "rum23",
-            "status": false,
-            "signalStrength": "-53 dbm",
-            "battery": "80%",
-            "lastSeen": "1 min"
-        },
-        {
-            "id": 4,
-            "name": "Device 4",
-            "location": "rum24",
-            "status": true,
-            "signalStrength": "-54 dbm",
-            "battery": "44%",
-            "lastSeen": "10 min"
-        },
-        {
-            "id": 5,
-            "name": "Device 5",
-            "location": "rum25",
-            "status": false,
-            "signalStrength": "-23 dbm",
-            "battery": "83%",
-            "lastSeen": "1 min"
-        }
-    ]
-
-
-}
-
-let LOCATIONS = {
-  "locations":
-  [{
-    "id": 20,
-    "name": "dockplatsen1",
-    "rooms": [
-    {
-      "id": 15,
-      "name": "rum23",
-      "devices": [
-        {
-          "id": 5,
-          "name": "king3"
-        },
-        {
-          "id": 4,
-          "name": "king2"
-        }
-      ]},
-      {
-      "id": 25,
-      "name": "rum24",
-      "devices": [
-        {
-          "id": 3,
-          "name": "king1"
-        },
-        {
-          "id": 2,
-          "name": "queen1"
-        }
-      ]
-      }
-
-
-    ]},
-  {
-    "id": 10,
-    "name": "orkanen",
-    "rooms": [{
-      "id": 1,
-      "name": "rum25"
-    }]
-  } 
-]}
-
-
-
-
-
-@Component({
-    selector: 'filter-devices',
-    template: `
-  <div class="location-box">
-    <select id="device_location_list" (change)="onChange()">
-        <option disabled selected>Välj rum</option>
-      <ng-container *ngFor="let location of locations.locations;">
-        
-        <option *ngFor="let room of location.rooms" value="{{room.name}}">{{room.name}}</option>
-      </ng-container>
-    </select>
-    <ng-container *ngFor="let device of devices.devices">
-      <div class="list-item" *ngIf="device_by_room(device)" (click)="onSelect(device)">
-        <span>ID: {{ device.id }} Name: {{ device.name }}</span>
-        <span class="spawn">{{ device.status }}</span>
-      </div>
-    </ng-container>
-  </div>
- `,
-    
+@Pipe({
+    name: 'uniqFilter',
+    pure: false
 })
 
-export class FilteringComponent  { 
-  name = 'Angular'; 
-  locations = LOCATIONS;
-  devices = DEVICES;
+@Injectable()
+export class UniquePipe implements PipeTransform {
+    transform(items: any[], args: any[]): any {
+        // filter items array, items which match and return true will be kept, false will be filtered out
+        return _.uniqBy(items, args);
+    }
+}
+
+@Component({
+  selector: 'filter-devices',
+  templateUrl: './filter.component.html',
+  styleUrls: [ './heroes.component.css' ]
+})
+
+
+export class FilteringComponent implements OnInit { 
+  devices: Device[];
   selectedDevice: Device;
   selectedRoom: string;
+  selectedStatus: boolean;
+
+  constructor(
+    private deviceService: DeviceService,
+    private router: Router) {
+
+  }
+
+  ngOnInit() {
+      this.getHeroes();
+
+      $("#device_filter").tablesorter();
+      $("#device_filter").bind("DOMSubtreeModified", function(){
+          $("#device_filter").trigger("update"); 
+      })
+      this.onStatusChange();
+  }
+
+  getHeroes(): void {
+    this.deviceService
+        .getHeroes()
+        .then(devices => this.devices = devices);
+  }
+
+  onStatusChange(): void {
+    var mySelect: any = document.getElementById("device_status_list");
+    var selectedStatus: string = mySelect.options[mySelect.selectedIndex].value;
+
+    if (selectedStatus == "true") {
+        this.selectedStatus = true;
+    }
+    else if (selectedStatus == "false") {
+        this.selectedStatus = false;
+    }
+    else if (selectedStatus == "all"){
+      this.selectedStatus = null;
+    }
+  }
+
+  check_offline(device: any){
+    //just a function to show if the device is offline or online, should be changed so when false/true the css would
+    //change the color
+    if(device.contactLost == false){
+      return "Online";
+    }
+    else if (device.contactLost == true){
+      return "Offline";
+    }
+  }
 
   onSelect(device: Device): void {
       this.selectedDevice = device;
+  }
+
+  gotoDetail(): void {
+    this.router.navigate(['/device', this.selectedDevice.id]);
   }
 
   onChange(): void {
@@ -151,27 +99,30 @@ export class FilteringComponent  {
   }
 
   device_by_room(device: any){
-    if (device.location == this.selectedRoom){
+    if(this.selectedStatus == undefined && device.locationName == this.selectedRoom){
       return true;
     }
-  }
-
-  check_offline(device: any){
-    let obj: Device = device;
-    if (obj.status == true){
+    else if(this.selectedRoom == "all" && this.selectedStatus == undefined){
       return true;
     }
-  }
-
-  check_location(device: any){
-    //skapa ny lista för varje location och sätt location som header ovanför respektive lista
-    console.log(this.selectedRoom);
-    if(device["location"] == this.selectedRoom){
+    else if(this.selectedRoom == undefined && this.selectedStatus === null){
       return true;
     }
-    
+
+    if(this.selectedRoom == undefined && this.selectedStatus == device.contactLost){
+      return true;
+    }
+    else if(this.selectedRoom == "all" && this.selectedStatus == device.contactLost){
+      return true;
+    }
+
+    if (device.locationName == this.selectedRoom && this.selectedStatus == device.contactLost){
+      return true;
+    }
+    else if(this.selectedRoom == "all" && this.selectedStatus === null ){
+      return true;
+    }
+
   }
-
-
 
 }

@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var hero_service_1 = require("./hero.service");
+var animations_1 = require("@angular/animations");
 var DevicesComponent = (function () {
     function DevicesComponent(deviceService, router) {
         this.deviceService = deviceService;
@@ -35,9 +36,26 @@ var DevicesComponent = (function () {
 }());
 DevicesComponent = __decorate([
     core_1.Component({
-        selector: 'my-heroes',
         templateUrl: './heroes.component.html',
-        styleUrls: ['./heroes.component.css']
+        styleUrls: ['./heroes.component.css'],
+        animations: [
+            animations_1.trigger('itemAnim', [
+                animations_1.transition(':enter', [
+                    animations_1.style({ opacity: '0' }),
+                    animations_1.animate(1500)
+                ]),
+                animations_1.transition(':leave', [
+                    animations_1.group([
+                        animations_1.animate('0s ease', animations_1.style({
+                            opacity: '0'
+                        })),
+                        animations_1.animate('0s 0s ease', animations_1.style({
+                            opacity: 0
+                        }))
+                    ])
+                ])
+            ])
+        ]
     }),
     __metadata("design:paramtypes", [hero_service_1.DeviceService,
         router_1.Router])

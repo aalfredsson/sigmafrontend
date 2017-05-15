@@ -1,12 +1,71 @@
-<ul class="devices">
- <a *ngFor="let device of devices" (click)="gotoDetail()"> <li  (click)="onSelect(device)"
-      [class.selected]="device === selectedDevice">
-    <span class="badge">{{device.$id}}</span>
-    <span>{{device.name}}</span>
-  </li></a>
-</ul>
-<div *ngIf="selectedDevice">
-  <h2>
-    {{selectedDevice.name | uppercase}}
-  </h2>
-</div>
+
+
+<br>
+<div class="container" [@itemAnim]>
+            <div class="row">
+                <div class="col-sm-6"> 
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Positive box</div>
+                            <overview-devices>Loading AppComponent content here ...</overview-devices>
+                    </div>
+                    
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Search device</div>
+                        <div class="panel-body">
+                            <search-devices></search-devices>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="col-sm-6"> 
+                    <div id="panel_offline" class="panel panel-default">
+                        <div class="panel-heading">Offline devices </div>
+                        <div class="panel-body" style="overflow-y: scroll;
+max-height: 18em;">
+                            <div class="list-group">
+                                <table class="table table-striped">
+      
+                                    <tbody>
+                                        <tr>
+   <td><offline-devices>Loading OfflineComponent content here ...</offline-devices></td>
+                                                    
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Filter</div>
+                        <div class="panel-body" style="overflow-y: scroll;
+max-height: 18em;">
+                            <div class="dropdown">
+                                
+                               
+                            </div>
+                            <div class="list-group">
+                                <table class="table table-striped">
+
+                                    <tbody>
+                                        <tr>
+<td><filter-devices>Loading AppComponent content here ...</filter-devices></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+          
+        <footer class="container-fluid text-center">
+            <br><br>
+            <p style="margin-top: 1em; font-family: Futura;">&copy; Intelligent Monitoring</p>
+                  
+
+           
+        </footer>

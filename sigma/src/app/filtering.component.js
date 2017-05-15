@@ -5,114 +5,76 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var core_1 = require("@angular/core");
-var Device = (function () {
-    function Device() {
+var router_1 = require("@angular/router");
+var hero_service_1 = require("./hero.service");
+var UniquePipe = (function () {
+    function UniquePipe() {
     }
-    return Device;
+    UniquePipe.prototype.transform = function (items, args) {
+        // filter items array, items which match and return true will be kept, false will be filtered out
+        return _.uniqBy(items, args);
+    };
+    return UniquePipe;
 }());
-exports.Device = Device;
-var DEVICES = {
-    "devices": [{
-            "id": 1,
-            "name": "Device 1",
-            "location": "rum24",
-            "status": true,
-            "signalStrength": "-90 dbm",
-            "battery": "65%",
-            "lastSeen": "15 min"
-        },
-        {
-            "id": 2,
-            "name": "Device 2",
-            "location": "rum23",
-            "status": true,
-            "signalStrength": "-62 dbm",
-            "battery": "0%",
-            "lastSeen": "10 min"
-        },
-        {
-            "id": 3,
-            "name": "Device 3",
-            "location": "rum23",
-            "status": false,
-            "signalStrength": "-53 dbm",
-            "battery": "80%",
-            "lastSeen": "1 min"
-        },
-        {
-            "id": 4,
-            "name": "Device 4",
-            "location": "rum24",
-            "status": true,
-            "signalStrength": "-54 dbm",
-            "battery": "44%",
-            "lastSeen": "10 min"
-        },
-        {
-            "id": 5,
-            "name": "Device 5",
-            "location": "rum25",
-            "status": false,
-            "signalStrength": "-23 dbm",
-            "battery": "83%",
-            "lastSeen": "1 min"
-        }
-    ]
-};
-var LOCATIONS = {
-    "locations": [{
-            "id": 20,
-            "name": "dockplatsen1",
-            "rooms": [
-                {
-                    "id": 15,
-                    "name": "rum23",
-                    "devices": [
-                        {
-                            "id": 5,
-                            "name": "king3"
-                        },
-                        {
-                            "id": 4,
-                            "name": "king2"
-                        }
-                    ]
-                },
-                {
-                    "id": 25,
-                    "name": "rum24",
-                    "devices": [
-                        {
-                            "id": 3,
-                            "name": "king1"
-                        },
-                        {
-                            "id": 2,
-                            "name": "queen1"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 10,
-            "name": "orkanen",
-            "rooms": [{
-                    "id": 1,
-                    "name": "rum25"
-                }]
-        }
-    ]
-};
+UniquePipe = __decorate([
+    core_1.Pipe({
+        name: 'uniqFilter',
+        pure: false
+    }),
+    core_1.Injectable()
+], UniquePipe);
+exports.UniquePipe = UniquePipe;
 var FilteringComponent = (function () {
-    function FilteringComponent() {
-        this.name = 'Angular';
-        this.locations = LOCATIONS;
-        this.devices = DEVICES;
+    function FilteringComponent(deviceService, router) {
+        this.deviceService = deviceService;
+        this.router = router;
     }
+    FilteringComponent.prototype.ngOnInit = function () {
+        this.getHeroes();
+        $("#device_filter").tablesorter();
+        $("#device_filter").bind("DOMSubtreeModified", function () {
+            $("#device_filter").trigger("update");
+        });
+        this.onStatusChange();
+    };
+    FilteringComponent.prototype.getHeroes = function () {
+        var _this = this;
+        this.deviceService
+            .getHeroes()
+            .then(function (devices) { return _this.devices = devices; });
+    };
+    FilteringComponent.prototype.onStatusChange = function () {
+        var mySelect = document.getElementById("device_status_list");
+        var selectedStatus = mySelect.options[mySelect.selectedIndex].value;
+        if (selectedStatus == "true") {
+            this.selectedStatus = true;
+        }
+        else if (selectedStatus == "false") {
+            this.selectedStatus = false;
+        }
+        else if (selectedStatus == "all") {
+            this.selectedStatus = null;
+        }
+    };
+    FilteringComponent.prototype.check_offline = function (device) {
+        //just a function to show if the device is offline or online, should be changed so when false/true the css would
+        //change the color
+        if (device.contactLost == false) {
+            return "Online";
+        }
+        else if (device.contactLost == true) {
+            return "Offline";
+        }
+    };
     FilteringComponent.prototype.onSelect = function (device) {
         this.selectedDevice = device;
+    };
+    FilteringComponent.prototype.gotoDetail = function () {
+        this.router.navigate(['/device', this.selectedDevice.id]);
     };
     FilteringComponent.prototype.onChange = function () {
         var mySelect = document.getElementById("device_location_list");
@@ -120,20 +82,25 @@ var FilteringComponent = (function () {
         this.selectedRoom = selectedRoom;
     };
     FilteringComponent.prototype.device_by_room = function (device) {
-        if (device.location == this.selectedRoom) {
+        if (this.selectedStatus == undefined && device.locationName == this.selectedRoom) {
             return true;
         }
-    };
-    FilteringComponent.prototype.check_offline = function (device) {
-        var obj = device;
-        if (obj.status == true) {
+        else if (this.selectedRoom == "all" && this.selectedStatus == undefined) {
             return true;
         }
-    };
-    FilteringComponent.prototype.check_location = function (device) {
-        //skapa ny lista för varje location och sätt location som header ovanför respektive lista
-        console.log(this.selectedRoom);
-        if (device["location"] == this.selectedRoom) {
+        else if (this.selectedRoom == undefined && this.selectedStatus === null) {
+            return true;
+        }
+        if (this.selectedRoom == undefined && this.selectedStatus == device.contactLost) {
+            return true;
+        }
+        else if (this.selectedRoom == "all" && this.selectedStatus == device.contactLost) {
+            return true;
+        }
+        if (device.locationName == this.selectedRoom && this.selectedStatus == device.contactLost) {
+            return true;
+        }
+        else if (this.selectedRoom == "all" && this.selectedStatus === null) {
             return true;
         }
     };
@@ -142,8 +109,11 @@ var FilteringComponent = (function () {
 FilteringComponent = __decorate([
     core_1.Component({
         selector: 'filter-devices',
-        template: "\n  <div class=\"location-box\">\n    <select id=\"device_location_list\" (change)=\"onChange()\">\n        <option disabled selected>V\u00E4lj rum</option>\n      <ng-container *ngFor=\"let location of locations.locations;\">\n        \n        <option *ngFor=\"let room of location.rooms\" value=\"{{room.name}}\">{{room.name}}</option>\n      </ng-container>\n    </select>\n    <ng-container *ngFor=\"let device of devices.devices\">\n      <div class=\"list-item\" *ngIf=\"device_by_room(device)\" (click)=\"onSelect(device)\">\n        <span>ID: {{ device.id }} Name: {{ device.name }}</span>\n        <span class=\"spawn\">{{ device.status }}</span>\n      </div>\n    </ng-container>\n  </div>\n ",
-    })
+        templateUrl: './filter.component.html',
+        styleUrls: ['./heroes.component.css']
+    }),
+    __metadata("design:paramtypes", [hero_service_1.DeviceService,
+        router_1.Router])
 ], FilteringComponent);
 exports.FilteringComponent = FilteringComponent;
 //# sourceMappingURL=filtering.component.js.map

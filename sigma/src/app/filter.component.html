@@ -1,0 +1,38 @@
+ <div class="location-box">
+    <select id="device_location_list" (change)="onChange()">
+        <option value="all" selected>Visa alla rum</option>
+      <ng-container  *ngFor="let device of devices | uniqFilter:'device.locationName'">
+        <option value="{{device.locationName}}">{{device.locationName}}</option>
+      </ng-container>
+    </select>
+    <select id="device_status_list" (change)="onStatusChange()">
+        <option value="all" selected>Offline/Online</option>
+        <option value="false">Online</option>
+        <option value="true">Offline</option>
+    </select>
+     <br> <br>
+    <table id="device_filter" class="tablesorter" style="width: 100%;">
+      <thead>
+        <tr>
+          <th class="header">Name</th>
+          <th class="header">Went offline</th>
+          <th class="header">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let device of devices" >
+          <tr class="device_row" *ngIf="device_by_room(device)" (click)="onSelect(device)" (click)="gotoDetail()">
+            <td><h5>{{ device.name }}</h5></td>
+              <ng-container  *ngIf="device.contactLostTime > 0">
+            <td>{{ device.contactLostTime | relativeDate:'device.contactLostTime' }}</td> 
+                                         </ng-container>
+              <ng-container  *ngIf="device.contactLostTime == 0">
+                  <td>{{ device.contactLostTime }}</td> 
+                  </ng-container>
+
+            <td>{{ check_offline(device) }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>

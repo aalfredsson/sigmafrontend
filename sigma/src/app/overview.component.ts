@@ -1,64 +1,9 @@
-import { Component } from '@angular/core';
-
-export class Device {
-    id: number;
-    name: string;
-    location: string;
-    status: boolean;
-}
+import { Component, OnInit } from '@angular/core';
+import { Router }        from '@angular/router';
 
 
-
-let DEVICES = {
-  
-	"devices": [{
-			"id": 1,
-			"name": "Device 1",
-			"location": "rum21",
-            "status": true,
-            "signalStrength": -90,
-            "battery": 65,
-            "lastSeen": "15 min"
-		},
-		{
-			"id": 2,
-			"name": "Device 2",
-			"location": "rum22",
-            "status": true,
-            "signalStrength": -62,
-            "battery": 0,
-            "lastSeen": "10 min"
-		},
-		{
-			"id": 3,
-			"name": "Device 3",
-			"location": "rum23",
-            "status": true,
-            "signalStrength": -53,
-            "battery": 5,
-            "lastSeen": "1 min"
-        },
-        {
-            "id": 4,
-            "name": "Device 4",
-            "location": "rum23",
-            "status": false,
-            "signalStrength": -54,
-            "battery": 0,
-            "lastSeen": "10 min"
-        },
-        {
-            "id": 5,
-            "name": "Device 5",
-            "location": "rum23",
-            "status": false,
-            "signalStrength": -80,
-            "battery": 83,
-            "lastSeen": "1 min"
-        }
-    ]
-
-}
+import { Device }        from './device';
+import { DeviceService } from './hero.service';
 
 
 @Component({
@@ -67,23 +12,23 @@ let DEVICES = {
     
     
      <div class="panel-body">
-                            <div class="panel_positive panel-default">
+                            <div class="panel_positive panel-default" *ngIf="devices">
                                 <div class="panel-body">
                                     <p class="col-sm-4">{{ devices_online(devices) }}% Online</p>
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 96%">
                                             <span class="sr-only">20% Complete (success)</span>
                                         </div>
-                                      
+                                        
                                     </div>
                                 </div>
                             </div>
                            
                             <div class="panel_positive panel-default">
                                 <div class="panel-body">
-                                    <p class="col-sm-4">{{ devices_offline(devices) }}% Offline</p>
+                                    <p class="col-sm-4" *ngIf="devices">{{ devices_offline(devices) }}% Offline</p>
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 4%">
                                             <span class="sr-only">1% Complete (warning)</span>
                                         </div>
                                     </div>
@@ -113,43 +58,46 @@ let DEVICES = {
     `]
 })
 
-export class OverviewComponent  { 
-  name = 'Angular'; 
-  devices = DEVICES;
-  selectedDevice: Device;
+export class OverviewComponent implements OnInit  { 
+    devices: Device[];
 
-  onSelect(device: Device): void {
-      this.selectedDevice = device;
-  }
 
-  check_offline(device: any){
-    let obj: Device = device;
-    if (obj.status == false){
-      return true;
+    constructor(
+        private deviceService: DeviceService,
+        private router: Router) {
+
     }
-    
-  }
 
+    ngOnInit() {
+        this.getHeroes();
+    }
 
-    devices_online(devices: any) {
+    getHeroes(): void {
+        this.deviceService
+            .getHeroes()
+            .then(devices => this.devices = devices);
+    }
+
+    devices_offline(devices: any) {
+
         var count: number = 0;
-        for (let device of devices.devices) {
-            if (device.status == true) {
+        for (let device of devices) {
+            if (device.contactLost == true) {
                 count = count + 1;
             }
         }
-        var online_percent: number = (count / devices.devices.length) * 100;
+        var online_percent: number = (count / devices.length) * 100;
         return Math.round(online_percent);
   }
 
-    devices_offline(devices: any) {
+    devices_online(devices:any) {
         var count: number = 0;
-        for (let device of devices.devices) {
-            if (device.status == false) {
+        for (let device of devices) {
+            if (device.contactLost == false) {
                 count = count + 1;
             }
         }
-        var online_percent: number = (count / devices.devices.length) * 100;
+        var online_percent: number = (count / devices.length) * 100;
         return Math.round(online_percent);
     }
 
@@ -166,30 +114,5 @@ export class OverviewComponent  {
         var online_percent: number = (count / devices.devices.length) * 100;
         return Math.round(online_percent);
     }
-
-
-  check_location(device: any){
-    //skapa ny lista för varje location och sätt location som header ovanför respektive lista
-    if(device["location"] == "rum22"){
-      return true;
-    }
-    
-  }
-
-  no_duplicates(device: any){
-    var mySelect: any = document.getElementById("device_location_list");
-    var mySelectLength: number = mySelect.length - 1;
-    console.log(mySelect);
-    if(mySelect.length != 0){
-      for(var i = 0; i < mySelect.length; i++){
-        if (mySelect.options[mySelectLength].value != device.location){
-          return true;
-        }
-      }
-    }
-    else{
-      return true;
-    }
-  }
 
 }

@@ -16,6 +16,10 @@ var hero_detail_component_1 = require("./hero-detail.component");
 var hero_service_1 = require("./hero.service");
 var offline_component_1 = require("./offline.component");
 var filtering_component_1 = require("./filtering.component");
+var filtering_component_2 = require("./filtering.component");
+var offline_component_2 = require("./offline.component");
+var search_component_1 = require("./search-component");
+var animations_1 = require("@angular/platform-browser/animations");
 var overview_component_1 = require("./overview.component");
 var AppModule = (function () {
     function AppModule() {
@@ -29,6 +33,7 @@ AppModule = __decorate([
             forms_1.FormsModule,
             http_1.HttpModule,
             app_routing_module_1.AppRoutingModule,
+            animations_1.BrowserAnimationsModule
         ],
         declarations: [
             app_component_1.AppComponent,
@@ -36,10 +41,13 @@ AppModule = __decorate([
             heroes_component_1.DevicesComponent,
             offline_component_1.OfflineComponent,
             filtering_component_1.FilteringComponent,
-            overview_component_1.OverviewComponent
+            overview_component_1.OverviewComponent,
+            filtering_component_2.UniquePipe,
+            offline_component_2.UniquePipe2,
+            search_component_1.SearchComponent
         ],
         providers: [hero_service_1.DeviceService],
-        bootstrap: [app_component_1.AppComponent, offline_component_1.OfflineComponent, filtering_component_1.FilteringComponent, overview_component_1.OverviewComponent]
+        bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);
 exports.AppModule = AppModule;

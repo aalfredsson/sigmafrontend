@@ -1,4 +1,4 @@
 export class Device {
   id: string;
-  name: string;
+  name: string;  
 }
