@@ -17,6 +17,9 @@ var hero_service_1 = require("./hero.service");
 var offline_component_1 = require("./offline.component");
 var overview_component_1 = require("./overview.component");
 var filtering_component_1 = require("./filtering.component");
+var progress_directive_1 = require("./progress.directive");
+var bar_component_1 = require("./bar.component");
+var progressbar_component_1 = require("./progressbar.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -25,9 +28,9 @@ var AppModule = (function () {
 AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, http_1.HttpModule, forms_1.FormsModule, common_1.CommonModule, app_routing_module_1.AppRoutingModule],
-        declarations: [app_component_1.AppComponent, hero_detail_component_1.DeviceDetailComponent, offline_component_1.OfflineComponent, overview_component_1.OverviewComponent, filtering_component_1.FilteringComponent, filtering_component_1.UniquePipe],
+        declarations: [app_component_1.AppComponent, hero_detail_component_1.DeviceDetailComponent, offline_component_1.OfflineComponent, overview_component_1.OverviewComponent, filtering_component_1.FilteringComponent, filtering_component_1.UniquePipe, progress_directive_1.Progress, bar_component_1.Bar, progressbar_component_1.Progressbar],
         providers: [hero_service_1.DeviceService, filtering_component_1.UniquePipe],
-        bootstrap: [app_component_1.AppComponent, offline_component_1.OfflineComponent, overview_component_1.OverviewComponent, filtering_component_1.FilteringComponent]
+        bootstrap: [app_component_1.AppComponent, offline_component_1.OfflineComponent, overview_component_1.OverviewComponent, filtering_component_1.FilteringComponent],
     })
 ], AppModule);
 exports.AppModule = AppModule;

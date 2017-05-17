@@ -81,7 +81,7 @@ var FilteringComponent = (function () {
         var selectedRoom = mySelect.options[mySelect.selectedIndex].value;
         this.selectedRoom = selectedRoom;
     };
-    FilteringComponent.prototype.device_by_room = function (device) {
+    FilteringComponent.prototype.filter_devices = function (device) {
         if (this.selectedStatus == undefined && device.locationName == this.selectedRoom) {
             return true;
         }
@@ -109,7 +109,7 @@ var FilteringComponent = (function () {
 FilteringComponent = __decorate([
     core_1.Component({
         selector: 'filter-devices',
-        template: "\n  <div class=\"location-box\">\n  \n    <select id=\"device_location_list\" (change)=\"onChange()\">\n        <option value=\"all\" selected>Visa alla rum</option>\n      <ng-container  *ngFor=\"let device of devices | uniqFilter:'device.locationName'\">\n        <option value=\"{{device.locationName}}\">{{device.locationName}}</option>\n      </ng-container>\n    </select>\n\n    <select id=\"device_status_list\" (change)=\"onStatusChange()\">\n        <option value=\"all\" selected>Offline/Online</option>\n        <option value=\"false\">Online</option>\n        <option value=\"true\">Offline</option>\n    </select>\n\n\n    <table id=\"device_filter\" class=\"tablesorter\" style=\"width: 100%;\">\n      <thead>\n        <tr>\n          <th class=\"header\">Name</th>\n          <th class=\"header\">Time Offline</th>\n          <th class=\"header\">Online</th>\n        </tr>\n      </thead>\n      <tbody>\n        <ng-container *ngFor=\"let device of devices\" >\n          <tr class=\"device_row\" *ngIf=\"device_by_room(device)\" (click)=\"onSelect(device)\" (click)=\"gotoDetail()\">\n            <td>{{ device.name }}</td>\n            <td>{{ device.contactLostTime }}</td> \n            <td>{{ check_offline(device) }}</td>\n          </tr>\n        </ng-container>\n      </tbody>\n    </table>\n  </div>\n ",
+        template: "\n  <div class=\"location-box\">\n  \n    <select id=\"device_location_list\" (change)=\"onChange()\">\n        <option value=\"all\" selected>Visa alla rum</option>\n      <ng-container  *ngFor=\"let device of devices | uniqFilter:'device.locationName'\">\n        <option value=\"{{device.locationName}}\">{{device.locationName}}</option>\n      </ng-container>\n    </select>\n\n    <select id=\"device_status_list\" (change)=\"onStatusChange()\">\n        <option value=\"all\" selected>Offline/Online</option>\n        <option value=\"false\">Online</option>\n        <option value=\"true\">Offline</option>\n    </select>\n\n\n    <table id=\"device_filter\" class=\"tablesorter\" style=\"width: 100%;\">\n      <thead>\n        <tr>\n          <th class=\"header\">Name</th>\n          <th class=\"header\">Time Offline</th>\n          <th class=\"header\">Online</th>\n        </tr>\n      </thead>\n      <tbody>\n        <ng-container *ngFor=\"let device of devices\" >\n          <tr class=\"device_row\" *ngIf=\"filter_devices(device)\" (click)=\"onSelect(device)\" (click)=\"gotoDetail()\">\n            <td>{{ device.name }}</td>\n            <td>{{ device.contactLostTime }}</td> \n            <td>{{ check_offline(device) }}</td>\n          </tr>\n        </ng-container>\n      </tbody>\n    </table>\n  </div>\n ",
     }),
     __metadata("design:paramtypes", [hero_service_1.DeviceService,
         router_1.Router])

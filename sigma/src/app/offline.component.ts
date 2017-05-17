@@ -70,11 +70,7 @@ let DEVICES = {
     selector: 'offline-devices',
     template: `
 
-    <ng-container *ngFor="let device of devices.devices">
-        <div class="list-item" *ngIf="check_offline(device)" (click)="onSelect(device)">
-            <a class="demo01" href="#animatedModal">{{all_offline_devices(device)}}</a>
-        </div>
-    </ng-container>
+
 
 
   
@@ -96,8 +92,7 @@ export class OfflineComponent implements AfterViewInit  {
   }
 
   ngAfterViewInit(): void {
-      $("#animatedModal").show();
-      $(".demo01").animatedModal();
+
       
   }
 

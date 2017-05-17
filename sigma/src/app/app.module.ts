@@ -11,17 +11,22 @@ import { AppComponent }         from './app.component';
 import { DeviceDetailComponent }  from './hero-detail.component';
 import { DeviceService }          from './hero.service';
 
+
 import { OfflineComponent }  from './offline.component';
+
 import { OverviewComponent }  from './overview.component';
 import { FilteringComponent, UniquePipe } from './filtering.component';
-
+import { Progress } from './progress.directive';
+import { Bar } from './bar.component';
+import { Progressbar } from './progressbar.component';
 
 
 @NgModule({
   imports:      [ BrowserModule, HttpModule, FormsModule, CommonModule, AppRoutingModule ],
-  declarations: [ AppComponent, DeviceDetailComponent, OfflineComponent, OverviewComponent, FilteringComponent, UniquePipe],
+  declarations: [ AppComponent, DeviceDetailComponent, OfflineComponent, OverviewComponent, FilteringComponent, UniquePipe, Progress, Bar, Progressbar],
   providers: [ DeviceService, UniquePipe ],
-  bootstrap:    [ AppComponent, OfflineComponent, OverviewComponent, FilteringComponent ]
+  bootstrap:    [ AppComponent, OfflineComponent, OverviewComponent, FilteringComponent ],
+  
 })
 
 export class AppModule { }

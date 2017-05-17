@@ -52,7 +52,7 @@ export class UniquePipe implements PipeTransform {
       </thead>
       <tbody>
         <ng-container *ngFor="let device of devices" >
-          <tr class="device_row" *ngIf="device_by_room(device)" (click)="onSelect(device)" (click)="gotoDetail()">
+          <tr class="device_row" *ngIf="filter_devices(device)" (click)="onSelect(device)" (click)="gotoDetail()">
             <td>{{ device.name }}</td>
             <td>{{ device.contactLostTime }}</td> 
             <td>{{ check_offline(device) }}</td>
@@ -76,7 +76,7 @@ export class FilteringComponent implements OnInit {
     private router: Router) {
 
   }
-
+  
   ngOnInit() {
       this.getHeroes();
 
@@ -133,7 +133,7 @@ export class FilteringComponent implements OnInit {
     this.selectedRoom = selectedRoom;
   }
 
-  device_by_room(device: any){
+  filter_devices(device: any){
     if(this.selectedStatus == undefined && device.locationName == this.selectedRoom){
       return true;
     }

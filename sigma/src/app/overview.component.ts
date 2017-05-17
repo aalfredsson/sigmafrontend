@@ -1,195 +1,78 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterContentChecked } from '@angular/core';
+import { Router }        from '@angular/router';
 
-export class Device {
-    id: number;
-    name: string;
-    location: string;
-    status: boolean;
-}
-
-
-
-let DEVICES = {
-  
-	"devices": [{
-			"id": 1,
-			"name": "Device 1",
-			"location": "rum21",
-            "status": true,
-            "signalStrength": -90,
-            "battery": 65,
-            "lastSeen": "15 min"
-		},
-		{
-			"id": 2,
-			"name": "Device 2",
-			"location": "rum22",
-            "status": true,
-            "signalStrength": -62,
-            "battery": 0,
-            "lastSeen": "10 min"
-		},
-		{
-			"id": 3,
-			"name": "Device 3",
-			"location": "rum23",
-            "status": true,
-            "signalStrength": -53,
-            "battery": 5,
-            "lastSeen": "1 min"
-        },
-        {
-            "id": 4,
-            "name": "Device 4",
-            "location": "rum23",
-            "status": false,
-            "signalStrength": -54,
-            "battery": 0,
-            "lastSeen": "10 min"
-        },
-        {
-            "id": 5,
-            "name": "Device 5",
-            "location": "rum23",
-            "status": false,
-            "signalStrength": -80,
-            "battery": 83,
-            "lastSeen": "1 min"
-        }
-    ]
-
-}
-
+import { Device }        from './device';
+import { DeviceService } from './hero.service';
 
 @Component({
     selector: 'overview-devices',
-    template: `
-    
-    
-     <div class="panel-body">
-                            <div class="panel_positive panel-default">
-                                <div class="panel-body">
-                                    <p class="col-sm-4">{{ devices_online(devices) }}% Online</p>
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                            <span class="sr-only">20% Complete (success)</span>
-                                        </div>
-                                      
-                                    </div>
-                                </div>
-                            </div>
-                           
-                            <div class="panel_positive panel-default">
-                                <div class="panel-body">
-                                    <p class="col-sm-4">{{ devices_offline(devices) }}% Offline</p>
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                            <span class="sr-only">1% Complete (warning)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
-    
-  `,
-    styles: [`
-    .list-item {
-      padding: 10px;
-      border: 1px solid rgba(0,0,0,0.1);
-      border-radius: 25px;
-      margin-bottom: 10px;
-      width: 25%;
-      display: flex;
-    }
-    
-    .spawn {
-      margin-left: auto;
-    }
-    
-    .location-box {
-      padding: 10px;
-      border: solid 1px rgba(0,0,0,0.2);
-    }
-    `]
+    template:`
+            <div class="panel-body">
+                <h4 class="onlineOffline">Online Devices</h4>
+                <progressbar class="onlineOffline" [animate]="true" [value]="onlineValue" [type]="onlineType">
+                    <b>{{onlineValue}}%</b>
+                </progressbar>
+                <br>
+                <h4 class="onlineOffline">Offline Devices</h4>
+                <progressbar class="onlineOffline" [animate]="true" [value]="offlineValue" [type]="offlineType">
+                    <b>{{offlineValue}}%</b>
+                </progressbar>
+            </div>
+             `,
+
 })
+export class OverviewComponent implements OnInit, AfterContentChecked {
 
-export class OverviewComponent  { 
-  name = 'Angular'; 
-  devices = DEVICES;
-  selectedDevice: Device;
+    public offlineValue:number;
+    public onlineValue:number;
+    public offlineType:string;
+    public onlineType:string;
+    public devices: Device[];
 
-  onSelect(device: Device): void {
-      this.selectedDevice = device;
-  }
-
-  check_offline(device: any){
-    let obj: Device = device;
-    if (obj.status == false){
-      return true;
+    constructor(private deviceService: DeviceService,
+        private router: Router) {
     }
-    
-  }
 
+    ngOnInit() {
+        this.getHeroes();
+    }
 
-    devices_online(devices: any) {
-        var count: number = 0;
-        for (let device of devices.devices) {
-            if (device.status == true) {
-                count = count + 1;
-            }
+    ngAfterContentChecked(){
+        if(this.devices != undefined){
+            this.devices_offline(this.devices);
+            this.devices_online(this.devices);
         }
-        var online_percent: number = (count / devices.devices.length) * 100;
-        return Math.round(online_percent);
-  }
+    }
+
+    getHeroes(): void {
+        this.deviceService
+            .getHeroes()
+            .then(devices => this.devices = devices);
+        
+    }
 
     devices_offline(devices: any) {
+
         var count: number = 0;
-        for (let device of devices.devices) {
-            if (device.status == false) {
+        for (let device of devices) {
+            if (device.contactLost == true) {
                 count = count + 1;
             }
         }
-        var online_percent: number = (count / devices.devices.length) * 100;
-        return Math.round(online_percent);
-    }
-
-    warning_devices(devices: any) {
-        var count: number = 0;
-        for (let device of devices.devices) {
-            if ((device.battery < 20) && (device.battery > 0)) {
-                count = count + 1;
-            }
-            else if ((device.signalStrength < -70) && (device.signalStrength > -90)) {
-                count = count + 1;
-            }
-        }
-        var online_percent: number = (count / devices.devices.length) * 100;
-        return Math.round(online_percent);
-    }
-
-
-  check_location(device: any){
-    //skapa ny lista för varje location och sätt location som header ovanför respektive lista
-    if(device["location"] == "rum22"){
-      return true;
-    }
-    
+        var online_percent: number = (count / devices.length) * 100;
+        this.offlineValue = Math.round(online_percent);
+        this.offlineType = 'danger';
   }
 
-  no_duplicates(device: any){
-    var mySelect: any = document.getElementById("device_location_list");
-    var mySelectLength: number = mySelect.length - 1;
-    console.log(mySelect);
-    if(mySelect.length != 0){
-      for(var i = 0; i < mySelect.length; i++){
-        if (mySelect.options[mySelectLength].value != device.location){
-          return true;
+    devices_online(devices:any) {
+        var count: number = 0;
+        for (let device of devices) {
+            if (device.contactLost == false) {
+                count = count + 1;
+            }
         }
-      }
+        var online_percent: number = (count / devices.length) * 100;
+        this.onlineValue = Math.round(online_percent);
+        this.onlineType = 'success';
     }
-    else{
-      return true;
-    }
-  }
-
 }

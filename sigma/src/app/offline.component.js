@@ -69,8 +69,6 @@ var OfflineComponent = (function () {
         this.selectedDevice = device;
     };
     OfflineComponent.prototype.ngAfterViewInit = function () {
-        $("#animatedModal").show();
-        $(".demo01").animatedModal();
     };
     OfflineComponent.prototype.check_offline = function (device) {
         if (device.status == false) {
@@ -144,7 +142,7 @@ var OfflineComponent = (function () {
 OfflineComponent = __decorate([
     core_1.Component({
         selector: 'offline-devices',
-        template: "\n\n    <ng-container *ngFor=\"let device of devices.devices\">\n        <div class=\"list-item\" *ngIf=\"check_offline(device)\" (click)=\"onSelect(device)\">\n            <a class=\"demo01\" href=\"#animatedModal\">{{all_offline_devices(device)}}</a>\n        </div>\n    </ng-container>\n\n\n  \n  \n",
+        template: "\n\n\n\n\n  \n  \n",
     })
 ], OfflineComponent);
 exports.OfflineComponent = OfflineComponent;
