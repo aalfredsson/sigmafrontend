@@ -8,35 +8,7 @@ import { DeviceService } from './hero.service';
 
 @Component({
     selector: 'overview-devices',
-    template: `
-    
-    
-     <div class="panel-body">
-                            <div class="panel_positive panel-default" *ngIf="devices">
-                                <div class="panel-body">
-                                    <p class="col-sm-4">{{ devices_online(devices) }}% Online</p>
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 96%">
-                                            <span class="sr-only">20% Complete (success)</span>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                           
-                            <div class="panel_positive panel-default">
-                                <div class="panel-body">
-                                    <p class="col-sm-4" *ngIf="devices">{{ devices_offline(devices) }}% Offline</p>
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 4%">
-                                            <span class="sr-only">1% Complete (warning)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
-    
-  `,
+    templateUrl: `./overview.component.html`,
     styles: [`
     .list-item {
       padding: 10px;

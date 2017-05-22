@@ -9,9 +9,12 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var heroes_component_1 = require("./heroes.component");
 var hero_detail_component_1 = require("./hero-detail.component");
+var all_devices_component_1 = require("./all-devices.component");
 var routes = [
     { path: 'device/:id', component: hero_detail_component_1.DeviceDetailComponent },
-    { path: '', component: heroes_component_1.DevicesComponent }
+    { path: 'devices', component: all_devices_component_1.AllDevicesComponent },
+    { path: '', component: heroes_component_1.DevicesComponent },
+    { path: '**', component: heroes_component_1.DevicesComponent }
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {

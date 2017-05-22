@@ -1,3 +1,7 @@
+.img-responsive {
+    height: 100% !important;
+}
+
 h1 {
   color: #369;
   font-family: Arial, Helvetica, sans-serif;
@@ -28,7 +32,7 @@ body {
 
 .panel-default > .panel-heading {
     color: #fff !important;
-    background: #333 !important;
+    background: #002f47 !important;
     border-color: #f7f7f7 !important;
 }
 
@@ -92,6 +96,5 @@ body {
 
 /*  GO FULL WIDTH BELOW 480 PIXELS */
 @media only screen and (max-width: 580px) {
-	.blockit h5 {  display: block !important; margin-top: 2em !important; margin-bottom: 2em !important; }
-    .blockit { text-align: center !important;  }
+	.blockit h5 {  font-size: 8px; }
 }

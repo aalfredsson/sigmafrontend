@@ -1,37 +1,59 @@
-<div [@itemAnim] style="position: fixed; left: 0; right: 0; top:0; bottom:0; width: 100%; height: 100%; background: #fff; overflow: scroll;">
-            <br>
-           <div class="container text-center"> 
-<div class="blockit" style="text-align: right;">
-<h5 style="display: inline; margin-right: 0.5em;"> Batteri <span class="label" style="font-size: 15px; color: #fff; background: #555; padding: 0.4em;">87%</span></h5>
-<h5 style="display: inline; margin-right: 0.5em;"> Signal <span class="label" style="font-size: 15px; color: #fff; background: #555; padding: 0.4em;">-53 dBm</span></h5>
-<h5 style="display: inline; margin-right: 0.5em;"> Last seen <span class="label" style="font-size: 15px; color: #fff; background: #555; padding: 0.4em;">5 min</span></h5>
-    <button style="background: #fff; color: #000; border: 0;" (click)="goBack()"><span style="color: #bbb;">Tillbaka</span> &rarr;</button>
-</div>
-<br>
-                   <div class="helpful" *ngIf="device" style="text-align: left; position: absolute;
-top: 1em;">
+<div [@itemAnim] style="position: fixed; left: 0; right: 0; top:0; bottom:0; width: 100%; height: 100%; background: #f7f7f7; overflow: scroll;">
+    
+    <div style="position: fixed;
+background: #f7f7f7;
+z-index: 100;
+width: 100%;
+padding: 2em;">
+          <div style="position: absolute;
+left: 10px;
+top: 10px;" class="helpful" *ngIf="device">
   <h5>{{device.name}} <span style="color: #bbb;">({{device.id}})</span></h5>  
 
 </div>
-               <br>
-  <h3>Statistik</h3>
+       
+        <div style="position: absolute;
+right: 20px;
+top: 20px;" *ngIf="device" class="blockit">
+<h5 style="display: inline; margin-right: 0.5em;"> Batteri: <span class="label" style="font-size: 15px; color: #fff; background: #002f47; padding: 0.4em;"> {{device.batteryLevel}} %</span></h5>
+<h5 style="display: inline; margin-right: 0.5em;"> Signal: <span class="label" style="font-size: 15px; color: #fff; background: #002f47; padding: 0.4em;">{{device.signalStrength}} dBm</span></h5>
+<h5 style="display: inline; margin-right: 0.5em;"> Last updated: <span id="lastSeen" class="label" style="font-size: 15px; color: #fff; background: #002f47; padding: 0.4em;"></span></h5>
+    <a style="background: #f7f7f7; color: #000; border: 0;" href="/"><span style="color: #bbb;">Back</span> &rarr;</a>
+</div>
+        
+    </div>
+    
+    <div style="position: relative; background: #f7f7f7;">
+       
+    
+      <h3 style="padding: 5em; text-align: center; color: #002f47; font-family: Futura;">Statistics</h3>
+        </div>
+
+    
+           <div class="container text-center"> 
                <br>
   <div class="row">
    <div class="col-sm-4">
-       <h5 style="color: #000; background: #eee; padding:1em;">Antal gånger offline/dag</h5>
+       <h5 style="color: #002f47;
+padding: 1em;
+border: 2px solid #002f47;">Times offline/day</h5>
 
 <div id="graphy" style="overflow-x: scroll;"></div>
       
        
       </div>
       <div class="col-sm-4">
-          <h5 style="color: #000; background: #eee; padding:1em;">Total tid offline/dag</h5>
+          <h5 style="color: #002f47;
+padding: 1em;
+border: 2px solid #002f47;">Total time offline/day</h5>
 
            <div id="graphy2" style="overflow-x: scroll;"></div>
            </div>
       
       <div class="col-sm-4">
-                  <h5 style="color: #000; background: #eee; padding:1em;">Signalstyrka över tid</h5>
+                  <h5 style="color: #002f47;
+padding: 1em;
+border: 2px solid #002f47;">Signal strength</h5>
 
                      <div id="graphy3" style="overflow-x: scroll;"></div>
 
@@ -40,31 +62,39 @@ top: 1em;">
       
     </div>
                <br>
-    <div class="row">
-        
-    
-        
-      <div class="col-sm-12" >
-                <img src="https://placehold.it/1200x590?text=FLOOR PLAN" class="img-responsive" style="height: 400px; width:100%" alt="Image">
-
-    </div>
-        
-        
-
-</div>
-               <br>
-                                            <a style="font-family: Futura;" href="//intelligentmonitoringwebapp.azurewebsites.net">Intelligent Monitoring</a>
-<br><br>
+     <div class="row" style="background: #fff;">
+                                   <h5 style="color: #fff;
+padding: 1em;
+background: #002f47;
+width: 30%;
+margin: 0 auto;
+border-radius: 4px; margin-top: 3em;">Floor plan</h5>
+            <div class="col-sm-12" style="position: relative;
+width: 70%;
+float: none;
+margin: 2em auto;">
+                <div style="border: 4px solid #FF4D4C; padding: 0.25em; border-radius: 100%; position: absolute;" id="test">
+                
+                
+                    
+            <div *ngIf="device"><h5 style="position: absolute;
+background: #002f47;
+padding: 0.3em;
+color: #fff;
+white-space: nowrap;">{{device.name}}</h5></div>
+                    
+                
+                </div>
+                <img src="http://intelligentmonitoringwebapp.azurewebsites.net/src/img/floorplan.jpg" class="img-responsive" style="height: 400px; width:100%; margin-bottom: 3em;" alt="Image">
+            </div>
+        </div>
+  
         
                </div>
                
              
+<footer style="text-align: center; background: #f7f7f7; padding: 3em;">
+     <a style="color: #002f47; font-family: Futura;" href="/">&copy; Intelligent Monitoring</a>
+    </footer>
 
-               
-      
-
-      
- 
-             
-      
  </div>

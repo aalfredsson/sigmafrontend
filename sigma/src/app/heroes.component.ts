@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router }            from '@angular/router';
 
 
@@ -35,7 +35,9 @@ export class DevicesComponent implements OnInit {
 
   constructor(
     private deviceService: DeviceService,
-    private router: Router) { }
+    private router: Router,
+        private elementRef:ElementRef
+) { }
 
   getHeroes(): void {
     this.deviceService
@@ -46,6 +48,13 @@ export class DevicesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHeroes();
+}
+
+ ngAfterViewInit() {
+  var s = document.createElement("script");
+  s.type = "text/javascript";
+  s.src = "js/search.js";
+  this.elementRef.nativeElement.appendChild(s);
 }
 
   onSelect(device: Device): void {

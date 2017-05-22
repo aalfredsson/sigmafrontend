@@ -22,6 +22,8 @@
        '@angular/animations': 'npm:@angular/animations/bundles/animations.umd.js',
       '@angular/animations/browser': 'npm:@angular/animations/bundles/animations-browser.umd.js',
               '@angular/platform-browser/animations': 'npm:@angular/platform-browser/bundles/platform-browser-animations.umd.js',
+        '@molteni/export-csv': 'npm:@molteni/export-csv/build/export-csv.js',
+        'papaparse': 'npm:papaparse/papaparse.js',
 
 
       // other libraries

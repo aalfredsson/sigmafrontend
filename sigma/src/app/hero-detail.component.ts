@@ -39,7 +39,9 @@ export class DeviceDetailComponent implements OnInit {
     private deviceService: DeviceService,
     private route: ActivatedRoute,
     private location: Location,
-    private elementRef:ElementRef
+    private elementRef:ElementRef,
+    
+    
   ) {}
 
   ngOnInit(): void {
@@ -47,8 +49,8 @@ export class DeviceDetailComponent implements OnInit {
       .switchMap((params: Params) => this.deviceService.getHero(params['id']))
       .subscribe(device => this.device = device);
   }
-  
 
+  
   ngAfterViewInit() {
   var s = document.createElement("script");
   s.type = "text/javascript";
@@ -59,4 +61,5 @@ export class DeviceDetailComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
 }

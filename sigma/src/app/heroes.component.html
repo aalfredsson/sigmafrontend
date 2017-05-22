@@ -5,14 +5,20 @@
             <div class="row">
                 <div class="col-sm-6"> 
                     <div class="panel panel-default">
-                        <div class="panel-heading">Positive box</div>
+                        <div class="panel-heading">Overview</div>
                             <overview-devices>Loading AppComponent content here ...</overview-devices>
                     </div>
                     
-                    <div class="panel panel-default">
+                   <div class="panel panel-default">
                         <div class="panel-heading">Search device</div>
                         <div class="panel-body">
-                            <search-devices></search-devices>
+                            <form class="navbar-form" role="search">
+                                <div class="form-group" style="width: 100%;">
+                                    <input  type="text" class="form-control" placeholder="Search" name="search" id="search" style="width: 100%; height: 3em;">
+                                </div>
+                                <div class="search_results">
+                                </div>
+                            </form>
                         </div>
                     </div>
                     
@@ -66,6 +72,6 @@ max-height: 18em;">
             <br><br>
             <p style="margin-top: 1em; font-family: Futura;">&copy; Intelligent Monitoring</p>
                   
-
+                       
            
         </footer>

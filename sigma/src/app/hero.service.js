@@ -10,12 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
+require("rxjs/add/operator/map");
 require("rxjs/add/operator/toPromise");
+require("rxjs/add/operator/catch");
 var DeviceService = (function () {
     function DeviceService(http) {
         this.http = http;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.heroesUrl = 'http://intelligentmonitoringapi.azurewebsites.net/api/Devices';
+        this.positionsUrl = 'http://intelligentmonitoringapi.azurewebsites.net/api/positions/device';
     }
     DeviceService.prototype.getHeroes = function () {
         return this.http.get(this.heroesUrl)
@@ -27,7 +30,14 @@ var DeviceService = (function () {
         var url = this.heroesUrl + "/" + id;
         return this.http.get(url)
             .toPromise()
-            .then(function (response) { return response.json().device; })
+            .then(function (response) { return response.json(); })
+            .catch(this.handleError);
+    };
+    DeviceService.prototype.getPosition = function (id) {
+        var url = this.positionsUrl + "/" + id;
+        return this.http.get(url)
+            .toPromise()
+            .then(function (response) { return response.json(); })
             .catch(this.handleError);
     };
     DeviceService.prototype.handleError = function (error) {

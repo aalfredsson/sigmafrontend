@@ -9,6 +9,7 @@ var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/http");
+var animations_1 = require("@angular/platform-browser/animations");
 var app_routing_module_1 = require("./app-routing.module");
 var app_component_1 = require("./app.component");
 var heroes_component_1 = require("./heroes.component");
@@ -18,9 +19,8 @@ var offline_component_1 = require("./offline.component");
 var filtering_component_1 = require("./filtering.component");
 var filtering_component_2 = require("./filtering.component");
 var offline_component_2 = require("./offline.component");
-var search_component_1 = require("./search-component");
-var animations_1 = require("@angular/platform-browser/animations");
 var overview_component_1 = require("./overview.component");
+var all_devices_component_1 = require("./all-devices.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -44,7 +44,7 @@ AppModule = __decorate([
             overview_component_1.OverviewComponent,
             filtering_component_2.UniquePipe,
             offline_component_2.UniquePipe2,
-            search_component_1.SearchComponent
+            all_devices_component_1.AllDevicesComponent
         ],
         providers: [hero_service_1.DeviceService],
         bootstrap: [app_component_1.AppComponent]

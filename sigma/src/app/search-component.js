@@ -10,39 +10,59 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var hero_service_1 = require("./hero.service");
-var SearchComponent = (function () {
-    function SearchComponent(deviceService, router) {
-        this.deviceService = deviceService;
+var Observable_1 = require("rxjs/Observable");
+var Subject_1 = require("rxjs/Subject");
+// Observable class extensions
+require("rxjs/add/observable/of");
+// Observable operators
+require("rxjs/add/operator/catch");
+require("rxjs/add/operator/debounceTime");
+require("rxjs/add/operator/distinctUntilChanged");
+var hero_search_service_1 = require("./hero-search.service");
+var HeroSearchComponent = (function () {
+    function HeroSearchComponent(heroSearchService, router) {
+        this.heroSearchService = heroSearchService;
         this.router = router;
+        this.searchTerms = new Subject_1.Subject();
     }
-    SearchComponent.prototype.getHeroes = function () {
+    // Push a search term into the observable stream.
+    HeroSearchComponent.prototype.search = function (term) {
+        this.searchTerms.next(term);
+    };
+    HeroSearchComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.deviceService
-            .getHeroes()
-            .then(function (devices) { return _this.devices = devices; });
+        this.heroes = this.searchTerms
+            .debounceTime(300) // wait 300ms after each keystroke before considering the term
+            .distinctUntilChanged() // ignore if next search term is same as previous
+            .switchMap(function (term) { return term // switch to new observable each time the term changes
+            ? _this.heroSearchService.search(term)
+            : Observable_1.Observable.of([]); })
+            .catch(function (error) {
+            // TODO: add real error handling
+            console.log(error);
+            return Observable_1.Observable.of([]);
+        });
     };
-    SearchComponent.prototype.ngOnInit = function () {
-        this.getHeroes();
+    HeroSearchComponent.prototype.gotoDetail = function (hero) {
+        var link = ['/device', hero.id];
+        this.router.navigate(link);
     };
-    SearchComponent.prototype.onSelect = function (device) {
-        this.selectedDevice = device;
-    };
-    SearchComponent.prototype.onChange = function () {
-        console.log("hej");
-    };
-    SearchComponent.prototype.gotoDetail = function () {
-        this.router.navigate(['/device', this.selectedDevice.id]);
-    };
-    return SearchComponent;
+    return HeroSearchComponent;
 }());
-SearchComponent = __decorate([
+HeroSearchComponent = __decorate([
     core_1.Component({
-        selector: 'search-devices',
-        templateUrl: './search.component.html'
+        selector: 'hero-search',
+        templateUrl: './search.component.html',
+        styleUrls: ['./search.component.css'],
+        providers: [hero_search_service_1.HeroSearchService]
     }),
-    __metadata("design:paramtypes", [hero_service_1.DeviceService,
+    __metadata("design:paramtypes", [hero_search_service_1.HeroSearchService,
         router_1.Router])
-], SearchComponent);
-exports.SearchComponent = SearchComponent;
+], HeroSearchComponent);
+exports.HeroSearchComponent = HeroSearchComponent;
+/*
+Copyright 2017 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+*/ 
 //# sourceMappingURL=search-component.js.map

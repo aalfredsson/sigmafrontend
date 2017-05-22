@@ -3,10 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DevicesComponent }      from './heroes.component';
 import { DeviceDetailComponent }  from './hero-detail.component';
+import { AllDevicesComponent }  from './all-devices.component';
+
 
 const routes: Routes = [
   { path: 'device/:id', component: DeviceDetailComponent },
-  { path: '',     component: DevicesComponent }
+  { path: 'devices',     component: AllDevicesComponent },
+  { path: '',     component: DevicesComponent },
+  { path: '**',     component: DevicesComponent }
 ];
 
 @NgModule({

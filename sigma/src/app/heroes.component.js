@@ -13,9 +13,10 @@ var router_1 = require("@angular/router");
 var hero_service_1 = require("./hero.service");
 var animations_1 = require("@angular/animations");
 var DevicesComponent = (function () {
-    function DevicesComponent(deviceService, router) {
+    function DevicesComponent(deviceService, router, elementRef) {
         this.deviceService = deviceService;
         this.router = router;
+        this.elementRef = elementRef;
     }
     DevicesComponent.prototype.getHeroes = function () {
         var _this = this;
@@ -25,6 +26,12 @@ var DevicesComponent = (function () {
     };
     DevicesComponent.prototype.ngOnInit = function () {
         this.getHeroes();
+    };
+    DevicesComponent.prototype.ngAfterViewInit = function () {
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        s.src = "js/search.js";
+        this.elementRef.nativeElement.appendChild(s);
     };
     DevicesComponent.prototype.onSelect = function (device) {
         this.selectedDevice = device;
@@ -58,7 +65,8 @@ DevicesComponent = __decorate([
         ]
     }),
     __metadata("design:paramtypes", [hero_service_1.DeviceService,
-        router_1.Router])
+        router_1.Router,
+        core_1.ElementRef])
 ], DevicesComponent);
 exports.DevicesComponent = DevicesComponent;
 //# sourceMappingURL=heroes.component.js.map
