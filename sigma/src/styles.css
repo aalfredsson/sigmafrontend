@@ -1,35 +1,71 @@
+@font-face {
+    font-family: Universe-Light-Cd;
+    src: url(../fonts/univers-light-cd.ttf);
+}
+
 .img-responsive {
     height: 100% !important;
 }
 
+header {
+    background-color: #002f47;
+    margin-bottom: 15px
+}
+
+header h1 {
+    color: #6bc5c3;
+    padding-left: 15px;
+    display: inline-block;
+}
+
+header h6 {
+    display: inline-block;
+    color: #fff;
+}
+
 h1 {
   color: #369;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Universe-Light-Cd, Arial, Helvetica, sans-serif;
   font-size: 250%;
 }
 
-.panel-heading {
-    font-family: Arial, Helvetica, sans-serif;
-    width: 160px;
+.searchBar {
 
+    position:absolute; 
+    z-index: 1000;
+}
+
+.panel-heading {
+    font-family: Universe-Light-Cd, Arial, Helvetica, sans-serif;
+    width: 160px;
+    font-size: 13pt;
 }
 
 body {
     background: #f7f7f7;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Universe-Light-Cd, Arial, Helvetica, sans-serif;
+    font-size: 10.8pt;
 }
 
-.button {
+
+
+.btn {
     background-color: #6bc5c3;
+    font-family: Universe-Light-Cd, Arial, Helvetica, sans-serif important;
 }
 
 .dropdown {
     float: left;
     margin-right: 10px !important;
+    font-family: Universe-Light-Cd, Arial, Helvetica, sans-serif !important;
 }
 
 .dropdown button{
     background-color: #6bc5c3 !important;
+}
+
+#dropdownMenu1, #dropdownMenu2 {
+    font-family: Universe-Light-Cd, Arial, Helvetica, sans-serif !important;
 }
 
 th.header { 
@@ -39,7 +75,7 @@ th.header {
     background-repeat: no-repeat; 
     background-position: center left; 
     padding-left: 20px; 
-
+    letter-spacing: -10 !important;
     margin-left: -1px; 
 } 
 

@@ -60,7 +60,7 @@ export class FilteringComponent implements OnInit {
   }
 
   onStatusChange(selectedStatus: string): void {
-    console.log(selectedStatus);
+
     if (selectedStatus == "Offline") {
         this.selectedStatus = true;
         $('#dropdownMenu2').html('Offline <span class="caret"></span>');

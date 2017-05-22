@@ -48,7 +48,6 @@ var FilteringComponent = (function () {
             .then(function (devices) { return _this.devices = devices; });
     };
     FilteringComponent.prototype.onStatusChange = function (selectedStatus) {
-        console.log(selectedStatus);
         if (selectedStatus == "Offline") {
             this.selectedStatus = true;
             $('#dropdownMenu2').html('Offline <span class="caret"></span>');

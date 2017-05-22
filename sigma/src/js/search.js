@@ -44,7 +44,7 @@ $.ajax({
                     id = response.devices[i].id;
                     url = 'http://localhost:3000/device/' + id;
                     if (x.toLowerCase().includes(search_value.toLowerCase())) {
-                        $(".search_results").append("<table class='tablesorter' style='width: 100%;'><tbody><tr class='device_row'><td><a href='" + url + "' class='device-link'><h5 class='device'>" + x + "</h5></a></td></tr></tbody></table>")      
+                        $(".search_results").append("<table class='tablesorter searchBox' style='width: 100%;'><tbody><tr class='device_row'><td><a href='" + url + "' class='device-link'><h5 class='device'>" + x + "</h5></a></td></tr></tbody></table>")      
                     }
                     }
                                 
