@@ -49,8 +49,9 @@ export class FilteringComponent implements OnInit {
       $("#device_filter").bind("DOMSubtreeModified", function(){
           $("#device_filter").trigger("update"); 
       })
-      this.onStatusChange();
+      this.onStatusChange("Offline/Online");
   }
+
 
   getHeroes(): void {
     this.deviceService
@@ -58,17 +59,18 @@ export class FilteringComponent implements OnInit {
         .then(devices => this.devices = devices);
   }
 
-  onStatusChange(): void {
-    var mySelect: any = document.getElementById("device_status_list");
-    var selectedStatus: string = mySelect.options[mySelect.selectedIndex].value;
-
-    if (selectedStatus == "true") {
+  onStatusChange(selectedStatus: string): void {
+    console.log(selectedStatus);
+    if (selectedStatus == "Offline") {
         this.selectedStatus = true;
+        $('#dropdownMenu2').html('Offline <span class="caret"></span>');
     }
-    else if (selectedStatus == "false") {
+    else if (selectedStatus == "Online") {
         this.selectedStatus = false;
+        $('#dropdownMenu2').html('Online <span class="caret"></span>');
     }
-    else if (selectedStatus == "all"){
+    else if (selectedStatus == "Offline/Online"){
+      $('#dropdownMenu2').html('Offline/Online <span class="caret"></span>');
       this.selectedStatus = null;
     }
   }
@@ -92,17 +94,16 @@ export class FilteringComponent implements OnInit {
     this.router.navigate(['/device', this.selectedDevice.id]);
   }
 
-  onChange(): void {
-    var mySelect: any = document.getElementById("device_location_list");
-    var selectedRoom: string = mySelect.options[mySelect.selectedIndex].value;
+  onChange(selectedRoom: string): void {
     this.selectedRoom = selectedRoom;
+    $('#dropdownMenu1').html(this.selectedRoom + ' <span class="caret"></span>');
   }
 
   device_by_room(device: any){
     if(this.selectedStatus == undefined && device.locationName == this.selectedRoom){
       return true;
     }
-    else if(this.selectedRoom == "all" && this.selectedStatus == undefined){
+    else if(this.selectedRoom == "Show all rooms" && this.selectedStatus == undefined){
       return true;
     }
     else if(this.selectedRoom == undefined && this.selectedStatus === null){
@@ -112,14 +113,14 @@ export class FilteringComponent implements OnInit {
     if(this.selectedRoom == undefined && this.selectedStatus == device.contactLost){
       return true;
     }
-    else if(this.selectedRoom == "all" && this.selectedStatus == device.contactLost){
+    else if(this.selectedRoom == "Show all rooms" && this.selectedStatus == device.contactLost){
       return true;
     }
 
     if (device.locationName == this.selectedRoom && this.selectedStatus == device.contactLost){
       return true;
     }
-    else if(this.selectedRoom == "all" && this.selectedStatus === null ){
+    else if(this.selectedRoom == "Show all rooms" && this.selectedStatus === null ){
       return true;
     }
 

@@ -1,15 +1,25 @@
  <div class="location-box">
-    <select id="device_location_list" (change)="onChange()">
-        <option value="all" selected>Visa alla rum</option>
-      <ng-container  *ngFor="let device of devices | uniqFilter:'device.locationName'">
-        <option value="{{device.locationName}}">{{device.locationName}}</option>
-      </ng-container>
-    </select>
-    <select id="device_status_list" (change)="onStatusChange()">
-        <option value="all" selected>Offline/Online</option>
-        <option value="false">Online</option>
-        <option value="true">Offline</option>
-    </select>
+     
+     <div class="dropdown">
+        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Show all rooms <span class="caret"></span></button>
+         
+        <ul id="device_location_list" class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li (click)="onChange('Show all rooms')"><a href="#">Show all rooms</a></li>
+          <ng-container  *ngFor="let device of devices | uniqFilter:'device.locationName'">
+              <li (click)="onChange(device.locationName)"><a href="#">{{device.locationName}}</a></li>
+          </ng-container>
+        </ul>
+         
+     </div>
+     
+    <div class="dropdown">
+        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Offline/Online <span class="caret"></span></button>
+        <ul id="device_status_list" class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <li (click)="onStatusChange('Offline/Online')"><a href="#">Offline/Online</a></li>
+            <li (click)="onStatusChange('Online')"><a href="#">Online</a></li>
+            <li (click)="onStatusChange('Offline')"><a href="#">Offline</a></li>
+        </ul>
+     </div>
      <br> <br>
     <table id="device_filter" class="tablesorter" style="width: 100%;">
       <thead>
@@ -22,7 +32,7 @@
       <tbody>
         <ng-container *ngFor="let device of devices" >
           <tr class="device_row" *ngIf="device_by_room(device)" (click)="onSelect(device)" (click)="gotoDetail()">
-            <td><h5>{{ device.name }}</h5></td>
+            <td>{{ device.name }}</td>
               <ng-container  *ngIf="device.contactLostTime > 0">
             <td>{{ device.contactLostTime | relativeDate:'device.contactLostTime' }}</td> 
                                          </ng-container>
