@@ -33,7 +33,7 @@ body {
 }
 
 th.header { 
-    background-image: url(../tablesorter/themes/blue/asc.gif); 
+    background-image: url(../js/tablesorter/themes/blue/asc.gif); 
     cursor: pointer; 
     font-weight: bold; 
     background-repeat: no-repeat; 
@@ -46,12 +46,12 @@ th.header {
 
 
 th.headerSortUp { 
-    background-image: url(../tablesorter/themes/blue/asc.gif); 
+    background-image: url(../js/tablesorter/themes/blue/asc.gif); 
 
 } 
 
 th.headerSortDown { 
-    background-image: url(../tablesorter/themes/blue/desc.gif); 
+    background-image: url(../js/tablesorter/themes/blue/desc.gif); 
 
 } 
 
