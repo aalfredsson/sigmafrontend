@@ -7,14 +7,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var heroes_component_1 = require("./heroes.component");
-var hero_detail_component_1 = require("./hero-detail.component");
-var all_devices_component_1 = require("./all-devices.component");
+var devices_component_1 = require("./devices.component");
+var device_detail_component_1 = require("./device-detail.component");
 var routes = [
-    { path: 'device/:id', component: hero_detail_component_1.DeviceDetailComponent },
-    { path: 'devices', component: all_devices_component_1.AllDevicesComponent },
-    { path: '', component: heroes_component_1.DevicesComponent },
-    { path: '**', component: heroes_component_1.DevicesComponent }
+    { path: 'device/:id', component: device_detail_component_1.DeviceDetailComponent },
+    { path: '', component: devices_component_1.DevicesComponent },
+    { path: '**', component: devices_component_1.DevicesComponent }
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {

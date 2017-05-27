@@ -1,85 +1,43 @@
 <!DOCTYPE html>
 <html>
-  <head>
-      
-      
-       <title>Intelligent monitoring</title>
-        <meta charset="UTF-8">
+    <head>
+        <title>Intelligent monitoring</title>
+        <meta charset="ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <base href="/">
-    
-    <link rel="stylesheet" href="styles.css">
-      <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <!-- Polyfill(s) for older browsers -->
-    <script src="node_modules/core-js/client/shim.min.js"></script>
-
-    <script src="node_modules/zone.js/dist/zone.js"></script>
-    <script src="node_modules/systemjs/dist/system.src.js"></script>
-<script src="js/lodash.min.js"></script>
-    <script src="systemjs.config.js"></script>
-    <script>
-      System.import('main.js').catch(function(err){ console.error(err); });
-    </script>
-      
-     
-
-
+        <base href="/">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../assets/css/styles.css">
+        
+        <script src="assets/js/jquery.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        
+        <!-- Polyfill(s) for older browsers -->
+        <script src="node_modules/core-js/client/shim.min.js"></script>
+        <script src="node_modules/zone.js/dist/zone.js"></script>
+        <script src="node_modules/systemjs/dist/system.src.js"></script>
+        <script src="assets/js/lodash.min.js"></script>
+        <script src="systemjs.config.js"></script>
+        <script>
+            System.import('main.js').catch(function(err){ console.error(err); });
+        </script>
+        
+        
     </head>
-
- <body>
-     
-        <my-app><div class="demo-icon">
-	        <div style="position: absolute; top: 40%; bottom: 0; left: 0; right: 0; text-align: center; font-size: 3em;">
-                <i class="fa fa-cog fa-spin fa-2x"></i>
-	    </div></div>
-    </my-app>
-     <hero-detail  [hero]="selectedHero"></hero-detail>
-     
-  
-                
-        <script type="text/javascript" src="js/tablesorter/jquery.tablesorter.js"></script>
-
-     <style>
-
-.bar {
-  fill: steelblue;
-}
-
-.bar:hover {
-  fill: brown;
-}
-
-.axis--x path {
-  display: none;
-}
-
-
-path { 
-    stroke: steelblue;
-    stroke-width: 2;
-    fill: none;
-}
-
-.axis path,
-.axis line {
-    fill: none;
-    stroke: grey;
-    stroke-width: 1;
-    shape-rendering: crispEdges;
-}
-
-
-         
-</style>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-
-<script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>
-     
-  </body>
+    
+    <body>
+        <my-app>
+            <div class="demo-icon">
+                <div style="position: absolute; top: 40%; bottom: 0; left: 0; right: 0; text-align: center; font-size: 3em;">
+                    <i class="fa fa-cog fa-spin fa-2x"></i> 
+                    <p style="font-family: Futura;font-size: 14px;">Intelligent Monitoring</p>
+                </div>
+            </div>
+        </my-app>
+        <hero-detail  [hero]="selectedHero"></hero-detail>
+        
+        <script type="text/javascript" src="../assets/js/tablesorter/jquery.tablesorter.js"></script>
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>
+    </body>
 </html>

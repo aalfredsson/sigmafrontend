@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var hero_service_1 = require("./hero.service");
+var device_service_1 = require("./device.service");
 var UniquePipe = (function () {
     function UniquePipe() {
     }
@@ -34,17 +34,17 @@ var FilteringComponent = (function () {
         this.router = router;
     }
     FilteringComponent.prototype.ngOnInit = function () {
-        this.getHeroes();
+        this.getDevices();
         $("#device_filter").tablesorter();
         $("#device_filter").bind("DOMSubtreeModified", function () {
             $("#device_filter").trigger("update");
         });
         this.onStatusChange("Offline/Online");
     };
-    FilteringComponent.prototype.getHeroes = function () {
+    FilteringComponent.prototype.getDevices = function () {
         var _this = this;
         this.deviceService
-            .getHeroes()
+            .getDevices()
             .then(function (devices) { return _this.devices = devices; });
     };
     FilteringComponent.prototype.onStatusChange = function (selectedStatus) {
@@ -62,8 +62,6 @@ var FilteringComponent = (function () {
         }
     };
     FilteringComponent.prototype.check_offline = function (device) {
-        //just a function to show if the device is offline or online, should be changed so when false/true the css would
-        //change the color
         if (device.contactLost == false) {
             return "Online";
         }
@@ -109,10 +107,9 @@ var FilteringComponent = (function () {
 FilteringComponent = __decorate([
     core_1.Component({
         selector: 'filter-devices',
-        templateUrl: './filter.component.html',
-        styleUrls: ['./heroes.component.css']
+        templateUrl: './html/filter.component.html'
     }),
-    __metadata("design:paramtypes", [hero_service_1.DeviceService,
+    __metadata("design:paramtypes", [device_service_1.DeviceService,
         router_1.Router])
 ], FilteringComponent);
 exports.FilteringComponent = FilteringComponent;

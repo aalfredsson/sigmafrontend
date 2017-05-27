@@ -1,0 +1,89 @@
+<header>
+    <h1>SIGMA</h1>
+    <h6>INTELLIGENT MONITORING</h6>
+    <div class="form-group">
+        <input  type="text" class="form-control" placeholder="Search" name="search" id="search">
+        <form class="navbar-form searchForm" role="search">
+            <div class="panel panel-default">
+                <div class="panel-body">              
+                   <div class="search_results">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</header>
+<div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6"> 
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Overview</div>
+                            <overview-devices>Loading AppComponent content here ...</overview-devices>
+                    </div>
+                    
+                     <div class="panel panel-default" style="position: relative;">
+                         <div id="popup" style="text-align: left !important; display: none; background: #fff; padding: 1em; position: absolute; right: 0; top: 0; z-index: 1000;"></div>
+                        <div class="panel-heading">Quick View</div>
+                        <div class="panel-body" style="min-height: 20em;">
+                               
+    <div class="col-sm-12" style="position: relative; width: 100%; float: none; margin: 2em auto;">
+        <div id="test"></div>
+                <img src="http://intelligentmonitoringwebapp.azurewebsites.net/src/img/floorplan.jpg" class="img-responsive" style="height: 100%; width:100%" alt="Image">
+            </div> 
+                        </div>
+                    </div>
+                
+                    
+                </div>
+                
+                <div class="col-sm-6"> 
+                    <div id="panel_offline" class="panel panel-default">
+                        <div class="panel-heading">Offline devices </div>
+                        <div class="panel-body" style="overflow-y: scroll;
+max-height: 18em;">
+                            <div class="list-group">
+                                <table class="table table-striped">
+      
+                                    <tbody>
+                                        <tr>
+   <td><offline-devices>Loading OfflineComponent content here ...</offline-devices></td>
+                                                    
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Filter</div>
+                        <div class="panel-body" style="overflow-y: scroll;
+max-height: 18em; min-height: 10.515em;">
+                            <div class="dropdown">
+                                
+                               
+                            </div>
+                            <div class="list-group">
+                                <table class="table table-striped">
+
+                                    <tbody>
+                                        <tr>
+<td><filter-devices>Loading AppComponent content here ...</filter-devices></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+          
+        <footer class="container-fluid text-center">
+            <br><br>
+            <p style="margin-top: 1em;">&copy; Intelligent Monitoring</p>
+                  
+                       
+           
+        </footer>

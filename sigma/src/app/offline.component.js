@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var hero_service_1 = require("./hero.service");
+var device_service_1 = require("./device.service");
 var epochs = [
     ['year', 31536000],
     ['month', 2592000],
@@ -57,14 +57,14 @@ var OfflineComponent = (function () {
         this.deviceService = deviceService;
         this.router = router;
     }
-    OfflineComponent.prototype.getHeroes = function () {
+    OfflineComponent.prototype.getDevices = function () {
         var _this = this;
         this.deviceService
-            .getHeroes()
+            .getDevices()
             .then(function (devices) { return _this.devices = devices; });
     };
     OfflineComponent.prototype.ngOnInit = function () {
-        this.getHeroes();
+        this.getDevices();
         $("#device_filter2").tablesorter();
         $("#device_filter2").bind("DOMSubtreeModified", function () {
             $("#device_filter2").trigger("update");
@@ -81,10 +81,9 @@ var OfflineComponent = (function () {
 OfflineComponent = __decorate([
     core_1.Component({
         selector: 'offline-devices',
-        templateUrl: './offline.component.html',
-        styleUrls: ['./heroes.component.css']
+        templateUrl: './html/offline.component.html'
     }),
-    __metadata("design:paramtypes", [hero_service_1.DeviceService,
+    __metadata("design:paramtypes", [device_service_1.DeviceService,
         router_1.Router])
 ], OfflineComponent);
 exports.OfflineComponent = OfflineComponent;

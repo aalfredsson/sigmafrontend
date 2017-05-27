@@ -1,8 +1,7 @@
 import { Component, OnInit, Pipe, Injectable, PipeTransform } from '@angular/core';
 import { Router }            from '@angular/router';
-
 import { Device }                from './device';
-import { DeviceService }         from './hero.service';
+import { DeviceService }         from './device.service';
 
 declare var $: any;
 
@@ -36,7 +35,6 @@ export class UniquePipe2 implements PipeTransform {
         };
     };
 
-
     transform(dateStamp: number): string {
 
         let timeAgoInSeconds = Math.floor((new Date().getTime() - new Date(dateStamp).getTime()) / 1000);
@@ -48,13 +46,10 @@ export class UniquePipe2 implements PipeTransform {
     }
     }
  
-
 @Component({
   selector: 'offline-devices',
-  templateUrl: './offline.component.html',
-  styleUrls: [ './heroes.component.css' ]
+  templateUrl: './html/offline.component.html'
 })
-
 
 export class OfflineComponent implements OnInit {
   devices: Device[];
@@ -64,23 +59,19 @@ export class OfflineComponent implements OnInit {
     private deviceService: DeviceService,
     private router: Router) { }
 
-  getHeroes(): void {
+  getDevices(): void {
     this.deviceService
-        .getHeroes()
+        .getDevices()
         .then(devices => this.devices = devices);
   }
 
   ngOnInit(): void {
-    this.getHeroes();
-
- $("#device_filter2").tablesorter();
-      $("#device_filter2").bind("DOMSubtreeModified", function(){
-          $("#device_filter2").trigger("update"); 
-      })
-
-  }
-
-
+    this.getDevices();
+    $("#device_filter2").tablesorter();
+    $("#device_filter2").bind("DOMSubtreeModified", function(){
+        $("#device_filter2").trigger("update"); 
+    })
+}
 
   onSelect(device: Device): void {
     this.selectedDevice = device;

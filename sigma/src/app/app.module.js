@@ -12,15 +12,15 @@ var http_1 = require("@angular/http");
 var animations_1 = require("@angular/platform-browser/animations");
 var app_routing_module_1 = require("./app-routing.module");
 var app_component_1 = require("./app.component");
-var heroes_component_1 = require("./heroes.component");
-var hero_detail_component_1 = require("./hero-detail.component");
-var hero_service_1 = require("./hero.service");
+var devices_component_1 = require("./devices.component");
+var device_detail_component_1 = require("./device-detail.component");
+var device_service_1 = require("./device.service");
 var offline_component_1 = require("./offline.component");
 var filtering_component_1 = require("./filtering.component");
 var filtering_component_2 = require("./filtering.component");
 var offline_component_2 = require("./offline.component");
 var overview_component_1 = require("./overview.component");
-var all_devices_component_1 = require("./all-devices.component");
+core_1.enableProdMode();
 var AppModule = (function () {
     function AppModule() {
     }
@@ -37,16 +37,15 @@ AppModule = __decorate([
         ],
         declarations: [
             app_component_1.AppComponent,
-            hero_detail_component_1.DeviceDetailComponent,
-            heroes_component_1.DevicesComponent,
+            device_detail_component_1.DeviceDetailComponent,
+            devices_component_1.DevicesComponent,
             offline_component_1.OfflineComponent,
             filtering_component_1.FilteringComponent,
             overview_component_1.OverviewComponent,
             filtering_component_2.UniquePipe,
-            offline_component_2.UniquePipe2,
-            all_devices_component_1.AllDevicesComponent
+            offline_component_2.UniquePipe2
         ],
-        providers: [hero_service_1.DeviceService],
+        providers: [device_service_1.DeviceService],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);

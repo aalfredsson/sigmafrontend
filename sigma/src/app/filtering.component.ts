@@ -2,10 +2,8 @@ import { Component, enableProdMode, OnInit, Pipe, PipeTransform, Injectable  } f
 import {Http, Headers, URLSearchParams} from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser'
 import { Router }        from '@angular/router';
-
 import { Device }        from './device';
-import { DeviceService } from './hero.service';
-
+import { DeviceService } from './device.service';
 
 declare var $: any;
 declare var _: any;
@@ -25,10 +23,8 @@ export class UniquePipe implements PipeTransform {
 
 @Component({
   selector: 'filter-devices',
-  templateUrl: './filter.component.html',
-  styleUrls: [ './heroes.component.css' ]
+  templateUrl: './html/filter.component.html'
 })
-
 
 export class FilteringComponent implements OnInit { 
   devices: Device[];
@@ -43,8 +39,7 @@ export class FilteringComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.getHeroes();
-
+      this.getDevices();
       $("#device_filter").tablesorter();
       $("#device_filter").bind("DOMSubtreeModified", function(){
           $("#device_filter").trigger("update"); 
@@ -52,10 +47,9 @@ export class FilteringComponent implements OnInit {
       this.onStatusChange("Offline/Online");
   }
 
-
-  getHeroes(): void {
+  getDevices(): void {
     this.deviceService
-        .getHeroes()
+        .getDevices()
         .then(devices => this.devices = devices);
   }
 
@@ -76,8 +70,6 @@ export class FilteringComponent implements OnInit {
   }
 
   check_offline(device: any){
-    //just a function to show if the device is offline or online, should be changed so when false/true the css would
-    //change the color
     if(device.contactLost == false){
       return "Online";
     }
