@@ -33,13 +33,7 @@
     "@angular/platform-browser": "~4.0.0",
     "@angular/platform-browser-dynamic": "~4.0.0",
     "@angular/router": "~4.0.0",
-    "@molteni/export-csv": "0.0.2",
-    "@types/d3-array": "^1.2.0",
-    "angular-in-memory-web-api": "~0.3.0",
-    "angular2-json2csv": "^1.1.2",
     "core-js": "^2.4.1",
-    "d3-array": "^1.2.0",
-    "d3-ng2-service": "^1.10.1",
     "rxjs": "5.0.1",
     "systemjs": "0.19.40",
     "zone.js": "^0.8.4"
