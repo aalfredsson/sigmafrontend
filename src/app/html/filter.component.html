@@ -1,50 +1,45 @@
  <div class="location-box">
-     
      <div class="dropdown">
-        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Show all rooms <span class="caret"></span></button>
+         <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Show all rooms <span class="caret"></span></button>
          
-        <ul id="device_location_list" class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li (click)="onChange('Show all rooms')"><a href="#">Show all rooms</a></li>
-          <ng-container  *ngFor="let device of devices | uniqFilter:'device.locationName'">
-              <li (click)="onChange(device.locationName)"><a href="#">{{device.locationName}}</a></li>
-          </ng-container>
-        </ul>
-         
+         <ul id="device_location_list" class="dropdown-menu" aria-labelledby="dropdownMenu1">
+             <li (click)="onChange('Show all rooms')"><a href="#">Show all rooms</a></li>
+             
+             <ng-container  *ngFor="let device of devices | uniqFilter:'device.locationName'">
+                 <li (click)="onChange(device.locationName)"><a href="#">{{device.locationName}}</a></li>
+             </ng-container>
+        </ul> 
      </div>
+     <div class="dropdown">
+         <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Offline/Online <span class="caret"></span></button>
+         
+         <ul id="device_status_list" class="dropdown-menu" aria-labelledby="dropdownMenu2">
+             <li (click)="onStatusChange('Offline/Online')"><a href="#">Offline/Online</a></li>
+             <li (click)="onStatusChange('Online')"><a href="#">Online</a></li>
+             <li (click)="onStatusChange('Offline')"><a href="#">Offline</a></li>
+         </ul>
+     </div>
+     <br>
+     <br>
      
-    <div class="dropdown">
-        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Offline/Online <span class="caret"></span></button>
-        <ul id="device_status_list" class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            <li (click)="onStatusChange('Offline/Online')"><a href="#">Offline/Online</a></li>
-            <li (click)="onStatusChange('Online')"><a href="#">Online</a></li>
-            <li (click)="onStatusChange('Offline')"><a href="#">Offline</a></li>
-        </ul>
-     </div>
-     <br> <br>
-    <table id="device_filter" class="tablesorter" style="width: 100%;">
-      <thead>
-        <tr>
-          <th class="header">Name</th>
-          <th class="header">Signal</th>
-            <th class="header">Battery</th>
-          <th class="header">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let device of devices" >
-          <tr class="device_row" *ngIf="device_by_room(device)" (click)="onSelect(device)" (click)="gotoDetail()">
-            <td>{{ device.name }}</td>
-              
-
-                   
-            <td>{{ device.signalStrength }}</td> 
-                                         <td>{{ device.batteryLevel }}</td> 
-               
-               
-
-            <td>{{ check_offline(device) }}</td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-  </div>
+     <table id="device_filter" class="tablesorter">
+         <thead>
+             <tr>
+                 <th class="header">Name</th>
+                 <th class="header">Signal</th>
+                 <th class="header">Battery</th>
+                 <th class="header">Status</th>
+             </tr>
+         </thead>
+         <tbody>
+             <ng-container *ngFor="let device of devices" >
+                 <tr class="device_row" *ngIf="device_by_room(device)" (click)="onSelect(device)" (click)="gotoDetail()">
+                     <td>{{ device.name }}</td>
+                     <td>{{ device.signalStrength }}</td> 
+                     <td>{{ device.batteryLevel }}</td> 
+                     <td>{{ check_offline(device) }}</td>
+                 </tr>
+             </ng-container>
+         </tbody>
+     </table>
+</div>

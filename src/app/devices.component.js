@@ -30,7 +30,7 @@ var DevicesComponent = (function () {
     DevicesComponent.prototype.ngAfterViewInit = function () {
         var s = document.createElement("script");
         s.type = "text/javascript";
-        s.src = "assets/js/search.js";
+        s.src = "assets/js/primary.js";
         this.elementRef.nativeElement.appendChild(s);
     };
     DevicesComponent.prototype.onSelect = function (device) {

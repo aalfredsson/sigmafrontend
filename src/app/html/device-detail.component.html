@@ -1,104 +1,57 @@
-<div [@itemAnim] style="position: fixed; left: 0; right: 0; top:0; bottom:0; width: 100%; height: 100%; background: #f7f7f7; overflow: scroll;">
+<div [@itemAnim] class="statistics-view">
     
-    <div style="position: fixed; z-index: 100; width: 100%; color: #fff; background: #002f47; padding: 2em;">
-         
-       
-        <div style="position: absolute;
-left: 20px;
-top: -10px;" class="blockit">
-    <a href="/"><h1 style="color: #6bc5c3; !important;">SIGMA <span style="font-size: 14px; color: #fff;">INTELLIGENT MONITORING</span></h1></a>
-</div>
-        
-        <div style="position: absolute; top: 18px; left: 0; text-align: center; width: 100%;" class="blockit goBackDiv">
-         <a style=" color: #fff; border: 0;" href="/"><span style="color: #fff;
-border: 1px solid #fff;
-padding: 0.4em;
-border-radius: 4px;">&larr; Go Back</span></a>
-            </div>
-        
-        
-        <div style="position: absolute;
-right: 20px;
-top: 20px;" class="blockit">
-<h5 style="display: inline; margin-right: 0.5em;"> Batteri: <span class="label" style="font-size: 15px; color: #002f47; background: #fff; padding: 0.4em;" id="battery">Fetching...</span></h5>
-<h5 style="display: inline; margin-right: 0.5em;"> Signal: <span class="label" style="font-size: 15px; color: #002f47; background: #fff; padding: 0.4em;" id="signal">Fetching...</span></h5>
-<h5 style="display: inline; margin-right: 0.5em;"> Last updated: <span id="lastSeen" class="label" style="font-size: 15px; color: #002f47; background: #fff; padding: 0.4em;">Fetching...</span></h5>
-   
-</div>
-        
-    </div>
-    
-    <div style="position: relative; background: #002f47; padding: 5em;">
-       
-    
-    <h3 style=" text-align: center; color: #fff;">Statistics</h3>
-        
-        <div><h5 style="color: #fff; text-align: center; text-transform: uppercase;"><span id="name">Fetching...</span><span style="color: #ddd; text-transform: none;" id="ids">(Fetching...)</span></h5></div>
-    
-    </div>
-
-    
-           <div class="container text-center"> 
-               <br>
-  <div class="row">
-   <div class="col-sm-4">
-       <h5 style="color: #002f47;
-padding: 1em;
-border: 2px solid #002f47;">Times offline/day (weekly)</h5>
-
-<div id="graphy" style="overflow-x: scroll;"></div>
-      
-       
-      </div>
-      <div class="col-sm-4">
-          <h5 style="color: #002f47;
-padding: 1em;
-border: 2px solid #002f47;">Total time offline/day (weekly)</h5>
-
-           <div id="graphy2" style="overflow-x: scroll;"></div>
-           </div>
-      
-      <div class="col-sm-4">
-                  <h5 style="color: #002f47;
-padding: 1em;
-border: 2px solid #002f47;">Signal strength (daily)</h5>
-
-                     <div id="graphy3" style="overflow-x: scroll;"></div>
-
-        
-           </div>
-      
-    </div>
-               <br>
-
-  
-        
-               </div>
-               
-         <div class="row" style="background: #fff; position: relative; width: 100%; margin: 0 auto;">
-          <div id="popup2" style="text-align: left !important; display: none; background: #fff; padding: 1em; position: absolute; right: 0; top: 0; z-index: 1000;"></div>
-                                   <h5 style="color: #002f47; padding: 1em; border: 2px solid #002f47; width: 27.5%; margin: 0 auto; border-radius: 4px; margin-top: 3em; text-align: center;">Floor plan</h5>
-         
-         
-            <div class="col-sm-12" style="position: relative;
-width: 70%;
-float: none;
-margin: 2em auto;">
-                
-                                        
-
-                
-                <div id="floorplan">
-                                    
-                    
-                
-                </div>
-                <img src="http://intelligentmonitoringwebapp.azurewebsites.net/src/img/floorplan.jpg" class="img-responsive" style="height: 400px; width:100%; margin-bottom: 3em;" alt="Image">
-            </div>
+    <div class="statistics-header">
+        <div class="blockit statistics-logo">
+            <a href="/"><h1>SIGMA <span>INTELLIGENT MONITORING</span></h1></a>
         </div>
-             
-<footer style="text-align: center; background: #f7f7f7; padding: 3em;">
-     <a style="color: #002f47;" href="/">&copy; Intelligent Monitoring</a>
+        <div class="blockit goBackDiv">
+            <a href="/"><span>&larr; Go Back</span></a>
+        </div>
+        <div class="blockit measurements">
+            <h5> Batteri: <span class="label" id="battery">Fetching...</span></h5>
+            <h5> Signal: <span class="label" id="signal">Fetching...</span></h5>
+            <h5> Last updated: <span class="label" id="lastSeen">Fetching...</span></h5>
+        </div>
+    </div>
+    
+    <div class="statistics-banner">
+        <h3>Statistics</h3>
+        <div>
+            <h5><span id="name">Fetching...</span><span id="ids">(Fetching...)</span></h5></div>
+    </div>
+    
+    <div class="container text-center"> 
+        <br>
+        <div class="row graphs">
+            <div class="col-sm-4">
+                <h5>Times offline/day (weekly)</h5>
+                <div id="graphy"></div>
+            </div>
+            <div class="col-sm-4">
+                <h5>Total time offline/day (weekly)</h5>
+                <div id="graphy2"></div>
+            </div>
+            <div class="col-sm-4">
+                <h5>Signal strength (daily)</h5>
+                <div id="graphy3"></div>
+            </div>
+      </div>
+        <br>
+    </div>
+    
+    <div class="row floorplan-section">
+        <div id="popup2"></div>
+        
+        <h5>Floor plan</h5>
+        <div class="col-sm-12 floorplan-image">
+            
+            <div id="floorplan"></div>
+            
+            <img src="http://intelligentmonitoringwebapp.azurewebsites.net/src/img/floorplan.jpg" class="img-responsive"  alt="Image">
+        </div>
+    </div>
+    
+    <footer>
+        <a href="/">2017 <span class="copy">&copy;</span> Intelligent Monitoring</a>
     </footer>
-
  </div>

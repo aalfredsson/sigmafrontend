@@ -49,7 +49,7 @@ export class DevicesComponent implements OnInit {
  ngAfterViewInit() {
   var s = document.createElement("script");
   s.type = "text/javascript";
-  s.src = "assets/js/search.js";
+  s.src = "assets/js/primary.js";
   this.elementRef.nativeElement.appendChild(s);
 }
 
