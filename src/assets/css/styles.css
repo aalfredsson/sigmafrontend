@@ -145,7 +145,7 @@ footer a:hover {
     width: 100%;
     height: 100%;
     background: #f7f7f7;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .statistics-header {
@@ -246,7 +246,7 @@ footer a:hover {
     text-transform: none;
 }
 
-#graphy, graphy2, graphy3 {
+#graphy, #graphy2, #graphy3 {
     overflow-x: scroll;
 }
 
