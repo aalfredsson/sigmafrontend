@@ -18,7 +18,7 @@ var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
 
 var xAxis = d3.svg.axis().scale(x).orient("bottom");
 var xAxis2 = d3.svg.axis().scale(x2).orient("bottom").ticks(10).tickFormat(d3.time.format("%H:%M"));
-var yAxis = d3.svg.axis().scale(y).orient("left").ticks(10);
+var yAxis = d3.svg.axis().scale(y).orient("left").ticks(5);
 
 var svg = d3.select("#graphy").append("svg").attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom).append("g").attr("width", '100%')
@@ -33,6 +33,36 @@ var svg3 = d3.select("#graphy3").append("svg").attr("width", width + margin.left
     .attr("height", height + margin.top + margin.bottom).append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+var div = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+    
+function dayAndNight() {  
+    
+    var getImage =  document.getElementById('dayNnight');
+    var getBackground =  document.getElementById('dNn');
+    var getHeading =  document.getElementById('dNn-heading');
+    var getA =  document.getElementById('dNn-a');
+    var getPop =  document.getElementById('popup2');
+
+    if (getImage.style.filter === 'brightness(100%)') {
+        getBackground.style.background = "black"
+        getImage.style.filter = "invert(1)";
+        getHeading.style.borderColor = "white";
+        getA.style.color = "white";
+        getA.innerHTML = "NIGHT VISION";
+        getPop.style.background = "transparent";
+        getPop.style.color = "white";
+    } 
+    else  {
+        getBackground.style.background = "white"
+        getImage.style.filter = "brightness(100%)";
+        getHeading.style.borderColor = "#002f47";
+        getA.style.color = "#002f47";
+        getA.innerHTML = "Floor plan";
+        getPop.style.background = "white";
+        getPop.style.color = "black";
+        }
+}
+
 /* End of General */
 
 /* Start of Main */ 
@@ -45,8 +75,6 @@ $(document).ready(function(){
         url : "http://intelligentmonitoringwebappservice.azurewebsites.net/api/Devices/" + getId,
         dataType : 'json',
         success : function(data) {
-            document.getElementById('battery').innerHTML = data.batteryLevel + " %";
-            document.getElementById('signal').innerHTML = data.signalStrength + " dBm";
             document.getElementById('name').innerHTML = data.name + " ";
         },
         error : function(code, message){
@@ -81,6 +109,7 @@ $(document).ready(function(){
         div2.id = id;
         div2.style.top = y*100 + "%";
         div2.style.left = x*100 + "%";
+        div2.style.zIndex = 1;
         
         if (status == false){
             if (id == getId) {
@@ -124,6 +153,8 @@ $(document).ready(function(){
         }    
     }   
 
+
+    
 /* End of Main */ 
 
 /* Start of Charts */ 
@@ -139,6 +170,34 @@ d3.json(getBarchart, function(error, data) {
     x.domain(data.map(function(d) { return d.createdTimeStamp; }));
     y.domain([0, d3.max(data, function(d) { return d.collectiveContactLostCount, 10; })]);
     
+    svg.selectAll("dot")	
+        .data(data)			
+        .enter().append("circle")
+        .style("fill", "transparent")
+        .style("stroke-width", "4")
+        .style("stroke", function(d) {
+        
+        if (d.collectiveContactLostCount > 0) {
+            return "transparent";
+        } else {
+            return "rgba(0, 191, 47, 0.5)";
+        }
+    })
+        .attr("r", 5)		
+        .attr("cx", function(d) { return x(d.createdTimeStamp) + (143/data.length); })		 
+        .attr("cy", function(d) { return y(d.collectiveContactLostCount - 2); })		
+        
+        .on("mouseover", function(d) {		
+            div.style("opacity", 1);
+            div.style("font-family", "Universe-Light-Cd")
+            div.html("<strong>" + d.createdTimeStamp + "</strong>: "  + d.collectiveContactLostCount + " minutes")	
+            .style("left", (d3.event.pageX) + "px")		
+            .style("top", (d3.event.pageY - 28) + "px")
+    })					
+        .on("mouseout", function(d) {		
+            div.style("opacity", 0);	
+    });
+    
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
@@ -153,14 +212,14 @@ d3.json(getBarchart, function(error, data) {
     svg.append("g")
         .attr("class", "y axis")
         .call(yAxis)
+        .style("font-family", "Universe-Light-Cd")
         .append("text")
+        .style("font-size", "20px")
+        .text("Times")
         .attr("transform", "rotate(-90)")
         .attr("y", 5)
         .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .text("Times")
-        .selectAll("text")
-        .style("font-family", "Universe-Light-Cd");
+        .style("text-anchor", "end");
 
     svg.selectAll("bar")
         .data(data)
@@ -182,14 +241,43 @@ d3.json(getBarchart, function(error, data) {
         var de = new Date();
         var ne = de.getTime();
         var re = ne - d.collectiveContactLostTime;
-        var test = re/1000;
+         var test = re/1000;
         if (d.collectiveContactLostTime > 0) {
             d.collectiveContactLostTime = test/60;
-        }        
+        }       
     });
     
     x.domain(data.map(function(d) { return d.createdTimeStamp; }));
     y.domain([0, d3.max(data, function(d) { return  d.collectiveContactLostTime, 1500; })]);
+
+    
+     svg2.selectAll("dot")	
+        .data(data)			
+        .enter().append("circle")
+        .style("fill", "transparent")
+        .style("stroke-width", "4")
+        .style("stroke", function(d) {
+        
+         if (d.collectiveContactLostTime > 0) {
+             return "transparent";
+         } else {
+             return "rgba(0, 191, 47, 0.5)";
+         }
+     })
+        .attr("r", 5)		
+        .attr("cx", function(d) {  return x(d.createdTimeStamp) + (143/data.length); })		 
+        .attr("cy", function(d) { return y(d.collectiveContactLostTime - 300); })		
+        
+         .on("mouseover", function(d) {		
+            div.style("opacity", 1);
+            div.style("font-family", "Universe-Light-Cd")
+            div.html("<strong>" + d.createdTimeStamp + "</strong>: "  + d.collectiveContactLostTime + " minutes")	
+            .style("left", (d3.event.pageX) + "px")		
+            .style("top", (d3.event.pageY - 28) + "px")
+     })					
+        .on("mouseout", function(d) {		
+            div.style("opacity", 0);
+     });
     
     svg2.append("g")
         .attr("class", "x axis")
@@ -205,14 +293,14 @@ d3.json(getBarchart, function(error, data) {
     svg2.append("g")
         .attr("class", "y axis")
         .call(yAxis)
+        .style("font-family", "Universe-Light-Cd")
         .append("text")
+        .style("font-size", "20px")
         .text("Minutes")
         .attr("transform", "rotate(-90)")
         .attr("y", 5)
         .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .selectAll("text")
-        .style("font-family", "Universe-Light-Cd");    
+        .style("text-anchor", "end");    
    
     svg2.selectAll("bar")
         .data(data)
@@ -233,10 +321,12 @@ d3.json(getLineChart, function(error, data) {
         d.signalStrength = +d.signalStrength;
         document.getElementById('lastSeen').innerHTML = parseDate3(d.createdTimeStamp);
         document.getElementById('ids').innerHTML = "(" + d.deviceId + ")";
+        document.getElementById('battery').innerHTML = d.batteryLevel + " %";
+        document.getElementById('signal').innerHTML = d.signalStrength + " dBm";
     });
     
     if (data[0].signalStrength == 0) {
-        document.getElementById('graphy3').innerHTML = "This device is connected by cable.";
+        document.getElementById('graphy3').innerHTML = "<p style='color: rgba(0, 191, 47, 0.9); font-size: 22px;'><img width='18' style='width: 18px; margin-top: -0.2em; margin-right: 0.1em;' src='assets/img/power.png'> This device is connected by cable.<p>";
     } else {
         var valueline = d3.svg.line()
         .x(function(d) { return x2(d.createdTimeStamp); })
@@ -248,6 +338,32 @@ d3.json(getLineChart, function(error, data) {
         svg3.append("path")
             .attr("class", "line")
             .attr("d", valueline(data));
+        
+        svg3.selectAll("dot")	
+            .data(data)			
+            .enter().append("circle")
+            .style("fill", function(d) {
+            
+            if (d.signalStrength < -85) {
+                return "rgba(255, 0, 0, 0.5)";
+            } else {
+                return "rgba(0, 191, 47, 0.5)";
+            }
+        })
+            .attr("r", 5)		
+            .attr("cx", function(d) { return x2(d.createdTimeStamp); })		 
+            .attr("cy", function(d) { return y(d.signalStrength); })		
+            
+            .on("mouseover", function(d) {		
+                div.style("opacity", 1);
+                div.style("font-family", "Universe-Light-Cd")
+                div.html("<strong>" + parseDate3(d.createdTimeStamp) + "</strong>: "  + d.signalStrength + " dBm")	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px")                    	
+            })					
+            .on("mouseout", function(d) {		
+                div.style("opacity", 0);	
+            });
 
         svg3.append("g")
             .attr("class", "x axis")
@@ -261,17 +377,16 @@ d3.json(getLineChart, function(error, data) {
             .attr("transform", "rotate(-90)" );
         
         svg3.append("g")
-            .attr("fill", "#002f47")
             .attr("class", "y axis")
             .call(yAxis)
+            .style("font-family", "Universe-Light-Cd")
             .append("text")
+            .style("font-size", "20px")
+            .text("dBm")
             .attr("transform", "rotate(-90)")
             .attr("y", 5)
             .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text("dBm")
-            .selectAll("text")
-            .style("font-family", "Universe-Light-Cd");
+            .style("text-anchor", "end");
     }
 });
 });
