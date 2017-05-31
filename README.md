@@ -35,7 +35,7 @@ $ npm start
 
 to start the webapplication. 
 
-**Troubleshooting**
+**Troubleshooting: **
 Problems that can arise during the installation in the command prompt are modules that are not recognized and these modules can be lite-server, concurrency and tsc. To solve these problems you can manually install every module by writing: 
 ```
 npm install -g
