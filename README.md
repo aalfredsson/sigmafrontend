@@ -16,7 +16,7 @@ INSTALLATION
 ------------------------------------------------------------------------------------------------------------------------------------------
 The following modules and frameworks are not neccessary for installing the webapplication but these are the components that were used during the development of the application:
 
--Angular 2 with TypeScript
+[Angular 2 with TypeScript](https://angular.io)
 
 -Bootstrap
 
