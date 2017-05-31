@@ -1,15 +1,15 @@
-# INTRODUCTION
+# Introduction
 The webapplication displays the dashboard where all the sensors in Sigma’s building can be monitored. All offline and online devices are shown on the dashboard and there is also a floorplan, which shows where every sensor is located in Sigma’s building. The device-specific information contains signal strength, battery strength and when the data was last polled for all the sensors. The device-specific site also contains graphs of the above-mentioned attributes and the location of the sensors on Sigma’s floorplan.
 
 [Live version](http://intelligentmonitoringwebapp.azurewebsites.net/)
 
 
-## REQUIREMENTS
+## Requirements
 The webapplication requires the following module:
 
 [Node.js](https://nodejs.org/en/)
 
-## INSTALLATION
+## Installation
 The following modules and frameworks are not neccessary for installing the webapplication but these are the components that were used during the development of the application:
 
 [Angular 2 with TypeScript](https://angular.io)
