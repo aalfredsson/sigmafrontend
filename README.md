@@ -28,7 +28,7 @@ First step of installing the webapplication is to open the directory where the s
 
 Problems that can arise during the installation in the command prompt are modules that are not recognized and these modules can be lite-server, concurrency and tsc. To solve these problems you can manually install every module by writing ’’npm install -g” and then write the module that is not recognized by the command prompt.
 
-Deploy on web (config)
+Deploy on web (web.config)
 ------------------------------------------------------------------------------------------------------------------------------------------
 ```
 <?xml version="1.0" encoding="UTF-8"?>
