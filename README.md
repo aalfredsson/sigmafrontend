@@ -43,6 +43,9 @@ npm install -g
 
 and then write the module that is not recognized by the command prompt.
 
+**Cross-origin:**
+To be able to connect while using localhost you will need to either include your domain name on your web server's CORS settings or download a plug-in/use developer tools to deactivate limitations to Cross Origin.
+
 Deploy on web (web.config)
 ------------------------------------------------------------------------------------------------------------------------------------------
 ```
