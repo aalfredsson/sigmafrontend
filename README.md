@@ -23,17 +23,25 @@ The following modules and frameworks are not neccessary for installing the webap
 
 [Tablesorter.js](http://tablesorter.com/docs/)
 
-First step of installing the webapplication is to open the directory where the src-file lies. Then you copy the path to the src file and open your commando prompt. In your commando prompt you write ’’cd’’ and then paste the path that you copied. Now you will be in the src-file through the command prompt. Write 
+First step of installing the webapplication is to open the directory where the src-file lies. Then you copy the path to the src file and open your commando prompt. In your commando prompt you write ’’cd’’ and then paste the path that you copied. Now you will be in the src-file through the command prompt. Write: 
 ```
 $ npm install
 ```
-to install all the modules listed as dependencies in package.json-file. After the installation, write 
+to install all the modules listed as dependencies in package.json-file. After the installation, write: 
 
 ```
 $ npm start
 ```
 
-to start the webapplication. Problems that can arise during the installation in the command prompt are modules that are not recognized and these modules can be lite-server, concurrency and tsc. To solve these problems you can manually install every module by writing ’’npm install -g” and then write the module that is not recognized by the command prompt.
+to start the webapplication. 
+
+**Troubleshooting**
+Problems that can arise during the installation in the command prompt are modules that are not recognized and these modules can be lite-server, concurrency and tsc. To solve these problems you can manually install every module by writing: 
+```
+npm install -g
+```
+
+and then write the module that is not recognized by the command prompt.
 
 Deploy on web (web.config)
 ------------------------------------------------------------------------------------------------------------------------------------------
