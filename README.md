@@ -4,13 +4,12 @@ The webapplication displays the dashboard where all the sensors in Sigma’s bui
 [Live version](http://intelligentmonitoringwebapp.azurewebsites.net/)
 
 
-# REQUIREMENTS
+## REQUIREMENTS
 The webapplication requires the following module:
 
 [Node.js](https://nodejs.org/en/)
 
-INSTALLATION
-------------------------------------------------------------------------------------------------------------------------------------------
+## INSTALLATION
 The following modules and frameworks are not neccessary for installing the webapplication but these are the components that were used during the development of the application:
 
 [Angular 2 with TypeScript](https://angular.io)
@@ -44,8 +43,7 @@ and then write the module that is not recognized by the command prompt.
 **Cross-origin:**
 To be able to connect while using localhost you will need to either include your domain name on your web server's CORS settings or download a plug-in/use developer tools to deactivate limitations to Cross Origin.
 
-Deploy on web (web.config)
-------------------------------------------------------------------------------------------------------------------------------------------
+## Deploy on web (web.config)
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
