@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    
+        
     $.ajax({
         type: "GET",
         url: 'http://intelligentmonitoringwebappservice.azurewebsites.net/api/Devices',
@@ -70,25 +70,54 @@ $(document).ready(function(){
                 }
             })        
             devices = response.data;
-            document.getElementById('test').innerHTML = "";
-            
-            $.ajax({
-                type : 'GET',
-                url : "http://intelligentmonitoringwebappservice.azurewebsites.net/api/devices?positions=true",
-                dataType : 'json',
-                success : function(data) {
-                    data = data.data;
-                    data.forEach(function(d) {
-                        doSomething(d.y, d.x, d.contactLost, d.id, d.name, d.signalStrength, d.batteryLevel);
-                    })
-                },
-                error : function(code, message){
-                    $('#error').html('Error Code: ' + code + ', Error Message: ' + message);            
-                }
-            });
-        }
-    })
+             
+   function getAjax2() {
     
+    document.getElementById('test').innerHTML = "";
+    getLastSeen = JSON.parse(localStorage.getItem('lastSeens'));
+    var diff = Math.abs(new Date() - new Date(getLastSeen));
+    
+       console.log(diff);
+       
+    if ((diff > 3007814) || (JSON.parse(localStorage.getItem('data') == null) )) {
+        
+    $.ajax({
+        type : 'GET',
+        url : "http://intelligentmonitoringwebappservice.azurewebsites.net/api/devices?positions=true",
+        dataType : 'json',
+        success : function(data) {
+            data = data.data;
+            
+            localStorage.setItem('lastSeens', JSON.stringify(data[0].lastSeen))
+            
+            localStorage.setItem('data', JSON.stringify(data));
+            newData = JSON.parse(localStorage.getItem('data'));
+            
+            newData.forEach(function(d) {
+                doSomething(d.y,  d.x, d.contactLost,  d.id, d.name, d.signalStrength, d.batteryLevel);  
+            })
+        },
+        error : function(code, message){
+            $('#error').html('Error Code: ' + code + ', Error Message: ' + message);            
+        }
+    });
+        } else {
+            
+            newData = JSON.parse(localStorage.getItem('data'));
+            
+            newData.forEach(function(d) {
+                doSomething(d.y,  d.x, d.contactLost,  d.id, d.name, d.signalStrength, d.batteryLevel);  
+            })
+            
+        }
+     }
+    getAjax2();
+    setInterval(getAjax2, 5000);
+    document.getElementsByTagName("body")[0].removeChild(div10);
+        }
+    
+    })
+     
     function doSomething(y, x, status, id, name, signal, battery) {
         var a = document.createElement('a')
         a.href = "/device/" + id;

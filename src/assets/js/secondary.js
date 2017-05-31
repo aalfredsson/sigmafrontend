@@ -34,54 +34,22 @@ var svg3 = d3.select("#graphy3").append("svg").attr("width", width + margin.left
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var div = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
-    
-function dayAndNight() {  
-    
-    var getImage =  document.getElementById('dayNnight');
-    var getBackground =  document.getElementById('dNn');
-    var getHeading =  document.getElementById('dNn-heading');
-    var getA =  document.getElementById('dNn-a');
-    var getPop =  document.getElementById('popup2');
-
-    if (getImage.style.filter === 'brightness(100%)') {
-        getBackground.style.background = "black"
-        getImage.style.filter = "invert(1)";
-        getHeading.style.borderColor = "white";
-        getA.style.color = "white";
-        getA.innerHTML = "NIGHT VISION";
-        getPop.style.background = "transparent";
-        getPop.style.color = "white";
-    } 
-    else  {
-        getBackground.style.background = "white"
-        getImage.style.filter = "brightness(100%)";
-        getHeading.style.borderColor = "#002f47";
-        getA.style.color = "#002f47";
-        getA.innerHTML = "Floor plan";
-        getPop.style.background = "white";
-        getPop.style.color = "black";
-        }
-}
 
 /* End of General */
 
 /* Start of Main */ 
 
 $(document).ready(function(){
-        document.getElementById('floorplan').innerHTML = "";
+        
     
-    $.ajax({
-        type : 'GET',
-        url : "http://intelligentmonitoringwebappservice.azurewebsites.net/api/Devices/" + getId,
-        dataType : 'json',
-        success : function(data) {
-            document.getElementById('name').innerHTML = data.name + " ";
-        },
-        error : function(code, message){
-            $('#error').html('Error Code: ' + code + ', Error Message: ' + message);            
-        }
-    });   
+    function getAjax() {
     
+    document.getElementById('floorplan').innerHTML = "";
+    getLastSeen = JSON.parse(localStorage.getItem('lastSeens'));
+    var diff = Math.abs(new Date() - new Date(getLastSeen));
+       
+        
+    if ((diff > 3540000) || (JSON.parse(localStorage.getItem('data') == null) )) {
     $.ajax({
         type : 'GET',
         url : "http://intelligentmonitoringwebappservice.azurewebsites.net/api/devices?positions=true",
@@ -90,16 +58,40 @@ $(document).ready(function(){
             
             data = data.data;
             
-            data.forEach(function(d) {
-                doSomething(d.y, d.x, d.contactLost, d.id, d.name, d.signalStrength, d.batteryLevel);
+            localStorage.setItem('lastSeens', JSON.stringify(data[0].lastSeen))
+            
+            localStorage.setItem('data', JSON.stringify(data));
+            newData = JSON.parse(localStorage.getItem('data'));
+            
+            newData.forEach(function(d) {
+                doSomething(d.y,  d.x, d.contactLost,  d.id, d.name, d.signalStrength, d.batteryLevel, d.lastSeen);  
             })
         },
         error : function(code, message){
             $('#error').html('Error Code: ' + code + ', Error Message: ' + message);            
         }
     });
+        } else {
+            
+            newData = JSON.parse(localStorage.getItem('data'));
+            
+            newData.forEach(function(d) {
+                doSomething(d.y,  d.x, d.contactLost,  d.id, d.name, d.signalStrength, d.batteryLevel, d.lastSeen);  
+            })      
+        }
+     }
+    getAjax();
+    setInterval(getAjax, 5000);
     
-    function doSomething(y, x, status, id, name, signal, battery) {
+    function doSomething(y, x, status, id, name, signal, battery, updated) {
+        
+        if (id == getId) {
+        document.getElementById('name').innerHTML = name + " ";
+        document.getElementById('ids').innerHTML = "(" + id + ")";
+        document.getElementById('battery').innerHTML = battery + " %";
+        document.getElementById('signal').innerHTML = signal + " dBm";
+        document.getElementById('lastSeen').innerHTML = parseDate3(new Date(updated));
+        }
         
         var a = document.createElement('a');
         a.href = "/device/" + id;
@@ -115,8 +107,9 @@ $(document).ready(function(){
             if (id == getId) {
                 div2.style.color = "#fff";
                 div2.style.background = "#002f47";
-                div2.innerHTML = "<p style='font-size: 10px; position: absolute; bottom: 10px; z-index: 0 !important; background: #002f47; white-space: nowrap; padding: 0.2em; margin: 0 auto;'>You are here</p>";
+                div2.innerHTML = "<p id='chosenDevice' style='font-size: 10px; position: absolute; bottom: 10px; z-index: 0 !important; background: #002f47; white-space: nowrap; padding: 0.2em; margin: 0 auto;'>You are here</p>";
                 a.style.pointerEvents = "none";
+                div2.className = "chosenD"
             } else {
                 if ((battery < 20 && battery > 0) || (signal < -85 && signal != 0)) {
                     div2.style.border = "1px solid rgba(240, 173, 78, 1)";
@@ -153,50 +146,31 @@ $(document).ready(function(){
         }    
     }   
 
-
+/* End of Main */
     
-/* End of Main */ 
-
 /* Start of Charts */ 
-
+    
+function getChart1() {
+    
+  
 d3.json(getBarchart, function(error, data) {
     data = data.data;
+    
+    varTotalOffline = 0;    
+
     data.forEach(function(d) {
         d.createdTimeStamp = parseDate(d.createdTimeStamp);
         d.createdTimeStamp = parseDate2(d.createdTimeStamp);
-        d.collectiveContactLostCount = +d.collectiveContactLostCount;   
+        d.collectiveContactLostCount = +d.collectiveContactLostCount; 
+        varTotalOffline += d.collectiveContactLostCount;
     });
     
     x.domain(data.map(function(d) { return d.createdTimeStamp; }));
     y.domain([0, d3.max(data, function(d) { return d.collectiveContactLostCount, 10; })]);
     
-    svg.selectAll("dot")	
-        .data(data)			
-        .enter().append("circle")
-        .style("fill", "transparent")
-        .style("stroke-width", "4")
-        .style("stroke", function(d) {
-        
-        if (d.collectiveContactLostCount > 0) {
-            return "transparent";
-        } else {
-            return "rgba(0, 191, 47, 0.5)";
-        }
-    })
-        .attr("r", 5)		
-        .attr("cx", function(d) { return x(d.createdTimeStamp) + (143/data.length); })		 
-        .attr("cy", function(d) { return y(d.collectiveContactLostCount - 2); })		
-        
-        .on("mouseover", function(d) {		
-            div.style("opacity", 1);
-            div.style("font-family", "Universe-Light-Cd")
-            div.html("<strong>" + d.createdTimeStamp + "</strong>: "  + d.collectiveContactLostCount + " minutes")	
-            .style("left", (d3.event.pageX) + "px")		
-            .style("top", (d3.event.pageY - 28) + "px")
-    })					
-        .on("mouseout", function(d) {		
-            div.style("opacity", 0);	
-    });
+      if (varTotalOffline == 0) {    
+    document.getElementById('graphy-info').innerHTML = "<p style='margin-top: -2em; color: green;'>This device has been offline 0 times.</p>";		
+    }
     
     svg.append("g")
         .attr("class", "x axis")
@@ -230,11 +204,19 @@ d3.json(getBarchart, function(error, data) {
         .attr("y", function(d) { return y(d.collectiveContactLostCount); })
         .attr("height", function(d) { return height - y(d.collectiveContactLostCount); });
 });
+    
+}  getChart1();
 
 /* Chart 2 */ 
 
-d3.json(getBarchart, function(error, data) {
+function getChart2() {
+    
+
+    d3.json(getBarchart, function(error, data) {
     data = data.data;
+        
+    varTotalOffline = 0;    
+        
     data.forEach(function(d) {
         d.createdTimeStamp = parseDate(d.createdTimeStamp);
         d.createdTimeStamp = parseDate2(d.createdTimeStamp);
@@ -244,40 +226,16 @@ d3.json(getBarchart, function(error, data) {
          var test = re/1000;
         if (d.collectiveContactLostTime > 0) {
             d.collectiveContactLostTime = test/60;
-        }       
+        }
+        varTotalOffline += d.collectiveContactLostTime;
     });
     
     x.domain(data.map(function(d) { return d.createdTimeStamp; }));
     y.domain([0, d3.max(data, function(d) { return  d.collectiveContactLostTime, 1500; })]);
-
-    
-     svg2.selectAll("dot")	
-        .data(data)			
-        .enter().append("circle")
-        .style("fill", "transparent")
-        .style("stroke-width", "4")
-        .style("stroke", function(d) {
-        
-         if (d.collectiveContactLostTime > 0) {
-             return "transparent";
-         } else {
-             return "rgba(0, 191, 47, 0.5)";
-         }
-     })
-        .attr("r", 5)		
-        .attr("cx", function(d) {  return x(d.createdTimeStamp) + (143/data.length); })		 
-        .attr("cy", function(d) { return y(d.collectiveContactLostTime - 300); })		
-        
-         .on("mouseover", function(d) {		
-            div.style("opacity", 1);
-            div.style("font-family", "Universe-Light-Cd")
-            div.html("<strong>" + d.createdTimeStamp + "</strong>: "  + d.collectiveContactLostTime + " minutes")	
-            .style("left", (d3.event.pageX) + "px")		
-            .style("top", (d3.event.pageY - 28) + "px")
-     })					
-        .on("mouseout", function(d) {		
-            div.style("opacity", 0);
-     });
+        console.log(varTotalOffline);
+    if (varTotalOffline == 0) {    
+    document.getElementById('graphy2-info').innerHTML = "<p style='margin-top: -2em; color: green;'>This device has been offline for 0 minutes.</p>";		
+    }
     
     svg2.append("g")
         .attr("class", "x axis")
@@ -312,17 +270,19 @@ d3.json(getBarchart, function(error, data) {
         .attr("height", function(d) { return height - y( d.collectiveContactLostTime); });
 });
 
+}  getChart2();
+    
 /* Chart 3 */ 
-
+    
+function getChart3() {
+    
 d3.json(getLineChart, function(error, data) {
+    
     data = data.data;
+    
     data.forEach(function(d) {
         d.createdTimeStamp = parseDate(d.createdTimeStamp);
         d.signalStrength = +d.signalStrength;
-        document.getElementById('lastSeen').innerHTML = parseDate3(d.createdTimeStamp);
-        document.getElementById('ids').innerHTML = "(" + d.deviceId + ")";
-        document.getElementById('battery').innerHTML = d.batteryLevel + " %";
-        document.getElementById('signal').innerHTML = d.signalStrength + " dBm";
     });
     
     if (data[0].signalStrength == 0) {
@@ -364,7 +324,7 @@ d3.json(getLineChart, function(error, data) {
             .on("mouseout", function(d) {		
                 div.style("opacity", 0);	
             });
-
+        
         svg3.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
@@ -388,5 +348,47 @@ d3.json(getLineChart, function(error, data) {
             .attr("dy", ".71em")
             .style("text-anchor", "end");
     }
+        document.getElementsByTagName("body")[0].removeChild(div10);
+
 });
+    
+}  getChart3();
+    
 });
+
+function dayAndNight() {  
+    
+    var getImage =  document.getElementById('dayNnight');
+    var getBackground =  document.getElementById('dNn');
+    var getHeading =  document.getElementById('dNn-heading');
+    var getA =  document.getElementById('dNn-a');
+    var getPop =  document.getElementById('popup2');
+    var getP = document.getElementById('chosenDevice');
+    var getChosen = document.getElementsByClassName('chosenD')[0];
+
+    
+    if (getImage.style.filter === 'brightness(100%)') {
+        getBackground.style.background = "black"
+        getImage.style.filter = "invert(1)";
+        getHeading.style.borderColor = "white";
+        getA.style.color = "white";
+        getA.innerHTML = "NIGHT VISION";
+        getPop.style.background = "transparent";
+        getPop.style.color = "white";
+        getP.style.background = "white";
+        getP.style.color = "black";
+        getChosen.style.backgroundColor = "white";
+    } 
+    else  {
+        getBackground.style.background = "white";
+        getImage.style.filter = "brightness(100%)";
+        getHeading.style.borderColor = "#002f47";
+        getA.style.color = "#002f47";
+        getA.innerHTML = "Floor plan";
+        getPop.style.background = "white";
+        getPop.style.color = "black";
+        getP.style.background = "#002f47";
+        getP.style.color = "white";
+        getChosen.style.backgroundColor = "#002f47";    
+    }
+}

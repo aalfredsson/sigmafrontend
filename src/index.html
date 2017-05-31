@@ -27,18 +27,17 @@
     </head>
     
     <body>
-        <my-app>
-            <div class="demo-icon">
-                <div style="position: absolute; top: 40%; bottom: 0; left: 0; right: 0; text-align: center; font-size: 3em;">
-                    <i class="fa fa-cog fa-spin fa-2x"></i> 
-                    <p style="font-family: Futura;font-size: 14px;">Intelligent Monitoring</p>
-                </div>
-            </div>
-        </my-app>
+        <my-app></my-app>
         <hero-detail  [hero]="selectedHero"></hero-detail>
         
         <script type="text/javascript" src="../assets/js/tablesorter/jquery.tablesorter.js"></script>
         <script src="http://d3js.org/d3.v3.min.js"></script>
         <script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.0.1/spin.min.js'></script> 
+        
+        <script>    var div10 = document.createElement("div");
+    div10.innerHTML = "<div class='demo-icon'><div style='background: #fff; position: fixed; width: 100%; height: 100%; top: 0; bottom: 0; left: 0; right: 0; text-align: center; font-size: 1.5em; color:#000; padding-top: 10em;'><i class='fa fa-cog fa-spin fa-2x'></i><br>Intelligent Monitoring </div></div>"
+    document.getElementsByTagName("body")[0].appendChild(div10);</script>
+
     </body>
 </html>
