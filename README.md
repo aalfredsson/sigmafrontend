@@ -1,5 +1,4 @@
-INTRODUCTION
------------------------------------------------------------------------------------------------------------------------------------------
+#INTRODUCTION
 The webapplication displays the dashboard where all the sensors in Sigma’s building can be monitored. All offline and online devices are shown on the dashboard and there is also a floorplan, which shows where every sensor is located in Sigma’s building. The device-specific information contains signal strength, battery strength and when the data was last polled for all the sensors. The device-specific site also contains graphs of the above-mentioned attributes and the location of the sensors on Sigma’s floorplan.
 
 [Live version](http://intelligentmonitoringwebapp.azurewebsites.net/)
