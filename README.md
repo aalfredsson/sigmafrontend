@@ -24,11 +24,15 @@ The following modules and frameworks are not neccessary for installing the webap
 
 -Tablesorter.js
 
-First step of installing the webapplication is to open the directory where the src-file lies. Then you copy the path to the src file and open your commando prompt. In your commando prompt you write ’’cd’’ and then paste the path that you copied. Now you will be in the src-file through the command prompt. Write ’’npm install’’ to install all the modules listed as dependencies in package.json-file. After the installation, write 
+First step of installing the webapplication is to open the directory where the src-file lies. Then you copy the path to the src file and open your commando prompt. In your commando prompt you write ’’cd’’ and then paste the path that you copied. Now you will be in the src-file through the command prompt. Write 
+```
+$ npm install
+```
+to install all the modules listed as dependencies in package.json-file. After the installation, write 
 
 ```
-npm start
-``` 
+$ npm start
+```
 
 to start the webapplication. 
 
