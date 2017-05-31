@@ -18,11 +18,11 @@ The following modules and frameworks are not neccessary for installing the webap
 
 [Angular 2 with TypeScript](https://angular.io)
 
--Bootstrap
+[Bootstrap](http://getbootstrap.com)
 
--D3.js
+[D3.js](https://d3js.org)
 
--Tablesorter.js
+[Tablesorter.js](http://tablesorter.com/docs/)
 
 First step of installing the webapplication is to open the directory where the src-file lies. Then you copy the path to the src file and open your commando prompt. In your commando prompt you write ’’cd’’ and then paste the path that you copied. Now you will be in the src-file through the command prompt. Write 
 ```
