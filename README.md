@@ -34,9 +34,7 @@ to install all the modules listed as dependencies in package.json-file. After th
 $ npm start
 ```
 
-to start the webapplication. 
-
-Problems that can arise during the installation in the command prompt are modules that are not recognized and these modules can be lite-server, concurrency and tsc. To solve these problems you can manually install every module by writing ’’npm install -g” and then write the module that is not recognized by the command prompt.
+to start the webapplication. Problems that can arise during the installation in the command prompt are modules that are not recognized and these modules can be lite-server, concurrency and tsc. To solve these problems you can manually install every module by writing ’’npm install -g” and then write the module that is not recognized by the command prompt.
 
 Deploy on web (web.config)
 ------------------------------------------------------------------------------------------------------------------------------------------
